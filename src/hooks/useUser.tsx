@@ -2,7 +2,7 @@
 
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react'
 
-import { SignInRequest } from '@/@types/user'
+import { SignInRequest } from '@/@types/auth'
 import { api } from '@/services/axios'
 import { User } from '@prisma/client'
 import { useRouter } from 'next/navigation'
@@ -42,7 +42,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   async function login({ login, password }: SignInRequest) {
     setLoading(true)
-    const { data, error } = await useAxios.post<{ user: User; accessToken: string }>('/api/users/login', {
+    const { data, error } = await useAxios.post<{ user: User; accessToken: string }>('/api/login', {
       login,
       password
     })

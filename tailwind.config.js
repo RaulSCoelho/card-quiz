@@ -7,7 +7,7 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          light: '#2065D1',
+          light: '#4d93d9',
           dark: '#103996'
         },
         secondary: {
@@ -32,11 +32,11 @@ module.exports = {
         }
       },
       backgroundColor: {
-        light: '#ffff',
+        light: '#fcfcfc',
         dark: '#16223b'
       },
       textColor: {
-        light: '#f7fafc',
+        light: '#fcfcfc',
         dark: '#000000'
       },
       animation: {

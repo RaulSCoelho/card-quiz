@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { SignInRequest, signInSchema } from '@/@types/user'
+import { SignInRequest, signInSchema } from '@/@types/auth'
 import { Alert } from '@/components/Alert'
 import { Button } from '@/components/Buttons'
 import { Input } from '@/components/Input'
@@ -11,38 +11,58 @@ import { useUser } from '@/hooks/useUser'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useSearchParams } from 'next/navigation'
 
-export function Login() {
+export function LoginForm() {
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm<SignInRequest>({ resolver: zodResolver(signInSchema) })
+  const [error, setError] = useState<string>('')
   const { login, loading } = useUser()
-  const [error, setError] = useState('')
   const query = useSearchParams()
 
-  async function onSubmit(creds: SignInRequest) {
-    const { error } = await login(creds)
+  async function onSubmit({ login: logIn, password }: SignInRequest) {
+    const { error } = await login({ login: logIn, password })
+
     if (error) {
-      setError(error)
+      setError(error || 'Wrong username or password')
     } else {
-      window.location.href = query.get('callbackUrl') || '/'
+      window.location.href = query?.get('callbackUrl') || '/'
     }
   }
 
+  useEffect(() => {
+    setError(Object.keys(errors).length > 0 ? Object.values(errors)[0].message || '' : '')
+  }, [errors])
+
   return (
-    <div className="flex w-full max-w-[400px] flex-col justify-center">
-      <form onSubmit={handleSubmit(onSubmit)} className="rounded-md border p-4">
-        <h2 className="mb-4 text-center text-2xl font-bold">Sign In</h2>
-        <Alert message={error} onClose={() => setError('')} type="error" className="mb-2" />
-        <div className="mb-4 flex flex-col gap-4">
-          <Input label="login" error={errors.login?.message} {...register('login')} />
-          <Input label="password" type="password" error={errors.password?.message} {...register('password')} />
-        </div>
-        <Button type="submit" loading={loading} className="mt-2 w-full">
-          Sign In
-        </Button>
-      </form>
+    <div className="flex items-center justify-center pt-12">
+      <div className="w-full max-w-md space-y-8">
+        <h2 className="text-center text-3xl font-extrabold">Log in to your account</h2>
+        <form className="mt-8 space-y-4" onSubmit={handleSubmit(onSubmit)}>
+          <Alert message={error} onClose={() => setError('')} className="mx-1 mb-3 shadow-md" type="error" />
+          <div className="-space-y-px rounded-md shadow-sm">
+            <Input
+              className="rounded-b-none rounded-t-md border border-gray-300"
+              placeholder="Username or email address"
+              autoComplete="username"
+              {...register('login')}
+            />
+            <Input
+              type="password"
+              className="rounded-b-md rounded-t-none border border-gray-300"
+              placeholder="Password"
+              autoComplete="current-password"
+              {...register('password')}
+            />
+          </div>
+          <div className="flex items-center justify-center">
+            <Button type="submit" className="w-full rounded-md" loading={loading}>
+              Sign in
+            </Button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }
