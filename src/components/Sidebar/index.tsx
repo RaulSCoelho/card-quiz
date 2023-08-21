@@ -23,8 +23,8 @@ interface SidebarProps {
 
 const sidebar = tv({
   slots: {
-    bg: 'fixed z-10 bg-black/50 select-none',
-    menu: 'fixed bottom-0 top-0 flex w-[90%] flex-col bg-light/90 text-dark backdrop-blur transition-[inset] dark:bg-dark/90 dark:text-light sm:w-96'
+    bg: 'fixed z-10 select-none bg-black/50',
+    menu: 'fixed bottom-0 top-0 flex w-[90%] flex-col bg-light/90 text-primary-light backdrop-blur transition-[inset] dark:bg-dark/90 sm:w-96'
   },
   variants: {
     open: {

@@ -28,11 +28,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <UserProvider>
             <div
               id="app"
-              className="h-screen overflow-auto scrollbar scrollbar-track-zinc-300/75 scrollbar-thumb-[#8888884b] dark:scrollbar-track-zinc-700"
+              className="fixed inset-0 overflow-auto scrollbar scrollbar-track-white/75 scrollbar-thumb-[#8888884b] dark:scrollbar-track-zinc-700"
             >
               <Header />
               <MainSidebar />
-              {children}
+              <div className="h-[calc(100%-56px)] px-5 py-5 sm:px-[10%] lg:px-[15%] xl:px-[20%]">{children}</div>
             </div>
             <ConfirmationModalControl />
             <SnackbarControl />

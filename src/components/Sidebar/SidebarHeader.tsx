@@ -1,11 +1,10 @@
-import { CSSProperties } from 'react'
 import { MdClose } from 'react-icons/md'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { tv } from 'tailwind-variants'
 
 import { IconButton } from '../Buttons/IconButton'
+import { Cards } from '../Images/Cards'
 
 interface SidebarHeaderProps {
   onClose(): void
@@ -15,7 +14,7 @@ interface SidebarHeaderProps {
 }
 
 const header = tv({
-  base: 'flex items-center justify-between gap-4 p-4 pb-0',
+  base: 'flex items-center justify-between gap-4 border-b border-slate-400 p-4 dark:border-slate-600',
   variants: {
     reverse: {
       true: 'flex-row-reverse',
@@ -25,13 +24,11 @@ const header = tv({
 })
 
 export function SidebarHeader({ onClose, title, logo, reverse = false }: SidebarHeaderProps) {
-  const style: CSSProperties = { borderRadius: '0.25rem', opacity: 0.8 }
-
   return (
     <div className={header({ reverse })}>
       <Link href="/" className="flex items-center gap-3">
-        {logo && <Image src={logo} alt="logo" width={35} height={35} style={style} />}
-        <span className="text-dark dark:text-light font-serif text-2xl font-normal">{title}</span>
+        {logo && <Cards width={35} height={35} className="opacity-90" colorClassName="dark:fill-white" />}
+        <span className="font-serif text-2xl font-normal text-black dark:text-white">{title}</span>
       </Link>
       <div className="h-full">
         <IconButton icon={MdClose} onClick={onClose} />

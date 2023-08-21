@@ -21,7 +21,7 @@ export function MainSidebar() {
   const { isOpen, close } = useMainSidebar()
 
   return (
-    <Sidebar open={isOpen} onClose={close} title="Card Quiz" logo="/favicon.ico">
+    <Sidebar open={isOpen} onClose={close} title="Card Quiz" logo="/logo.png">
       <Sidebar.Body>
         <Sidebar.Route title="Home" path="/" icon={IoHomeOutline} exact />
       </Sidebar.Body>
