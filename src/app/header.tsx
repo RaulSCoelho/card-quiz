@@ -6,7 +6,7 @@ import { IconButton } from '@/components/Buttons/IconButton'
 import { ThemeSwitcher } from '@/components/Switchers/ThemeSwitcher'
 import Link from 'next/link'
 
-import { useMainSidebar } from './(global)/MainSidebar'
+import { useMainSidebar } from './(Global)/MainSidebar'
 
 export function Header() {
   const { open: openSidebar } = useMainSidebar()

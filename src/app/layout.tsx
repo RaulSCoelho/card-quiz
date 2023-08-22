@@ -5,10 +5,10 @@ import { ThemesProvider } from '@/hooks/useTheme'
 import { UserProvider } from '@/hooks/useUser'
 import { Inter } from 'next/font/google'
 
-import { ConfirmationModalControl } from './(global)/ConfirmationModalControl'
-import { LoadingControl } from './(global)/LoadingControl'
-import { MainSidebar } from './(global)/MainSidebar'
-import { SnackbarControl } from './(global)/SnackbarControl'
+import { ConfirmationModalControl } from './(Global)/ConfirmationModalControl'
+import { LoadingControl } from './(Global)/LoadingControl'
+import { MainSidebar } from './(Global)/MainSidebar'
+import { SnackbarControl } from './(Global)/SnackbarControl'
 import { Header } from './header'
 
 const inter = Inter({ subsets: ['latin'] })
