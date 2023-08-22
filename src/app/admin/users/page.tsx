@@ -1,4 +1,4 @@
-import { UsersTable } from '.'
+import { Users } from '.'
 
 export const metadata = {
   title: 'Users'
@@ -7,7 +7,7 @@ export const metadata = {
 export default function Page() {
   return (
     <div className="flex justify-center px-2">
-      <UsersTable />
+      <Users />
     </div>
   )
 }
