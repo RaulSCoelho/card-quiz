@@ -49,7 +49,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     setLoading(false)
 
     if (error) {
-      return error
+      return { error }
     }
 
     if (data) {
