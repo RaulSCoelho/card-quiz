@@ -8,17 +8,17 @@ interface LogoProps {
 }
 
 const logo = tv({
-  base: '',
+  base: 'h-16 w-16',
   slots: {
-    color: 'fill-[#00204a]'
+    color: 'fill-[#00204a] dark:fill-white'
   }
 })
 
-export function Cards({ width = 64, height = 64, className, colorClassName }: LogoProps) {
+export function Cards({ className, colorClassName }: LogoProps) {
   const { base, color } = logo()
 
   return (
-    <svg width={width} height={height} className={base({ className })} viewBox="0 0 80 62.27484627553956">
+    <svg className={base({ className })} viewBox="0 0 80 62.27484627553956">
       <g
         className={color({ className: colorClassName })}
         transform="translate(-0.5104232097851166, -21.287830145619452) scale(0.13238701344323298)"

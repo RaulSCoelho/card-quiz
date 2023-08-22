@@ -27,7 +27,7 @@ export function SidebarHeader({ onClose, title, logo, reverse = false }: Sidebar
   return (
     <div className={header({ reverse })}>
       <Link href="/" className="flex items-center gap-3">
-        {logo && <Cards width={35} height={35} className="opacity-90" colorClassName="dark:fill-white" />}
+        {logo && <Cards className="h-9 w-9" />}
         <span className="font-serif text-2xl font-normal text-black dark:text-white">{title}</span>
       </Link>
       <div className="h-full">

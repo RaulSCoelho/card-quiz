@@ -9,18 +9,18 @@ interface LogoProps {
 }
 
 const logo = tv({
-  base: '',
+  base: 'h-[300px] w-[300px]',
   slots: {
-    bg: 'fill-[#00204a]',
+    bg: 'fill-[#00204a] dark:fill-primary-dark',
     color: 'fill-[#d9faff]'
   }
 })
 
-export function Logo({ width = 300, height = 300, className, bgClassName, colorClassName }: LogoProps) {
+export function Logo({ className, bgClassName, colorClassName }: LogoProps) {
   const { base, bg, color } = logo()
 
   return (
-    <svg width={width} height={height} className={base({ className })} viewBox="0 0 312.5 312.5">
+    <svg className={base({ className })} viewBox="0 0 312.5 312.5">
       <g className={bg({ className: bgClassName })} transform="matrix(6.25,0,0,6.25,0,0)">
         <path d="M50 25c0 8.88-3.62 15.67-10.6 20.11C35.53 47.58 29.93 50 25 50c-8.63 0-14.24-1.37-18.73-8C3.57 38 0 30.2 0 25c0-6.85 1.76-14.06 6.22-18.58S18.04 0 25 0c9.5 0 16.77 5.3 21 13.11 1.88 3.53 4 7.58 4 11.89z"></path>
       </g>
