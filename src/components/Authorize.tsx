@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 
 import { useUser } from '@/hooks/useUser'
 import { User } from '@prisma/client'
@@ -24,11 +24,13 @@ export function Authorize({ children, unauthorized, redirect, member, admin, rol
   const validRole = role && user?.roles.includes(role)
   const authorized = validMember || validAdmin || validRole
 
-  if (redirect && !authorized) {
-    const path =
-      typeof redirect === 'string' ? redirect : `/login?${new URLSearchParams({ callbackUrl: pathname || '/' })}`
-    nextRedirect(path)
-  }
+  useEffect(() => {
+    if (redirect && !authorized) {
+      const path =
+        typeof redirect === 'string' ? redirect : `/login?${new URLSearchParams({ callbackUrl: pathname || '/' })}`
+      nextRedirect(path)
+    }
+  }, [authorized, pathname, redirect])
 
   return <>{authorized ? children : unauthorized}</>
 }

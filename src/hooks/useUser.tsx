@@ -5,6 +5,7 @@ import { ReactNode, createContext, useContext, useEffect, useState } from 'react
 import { SignInRequest } from '@/@types/auth'
 import { api } from '@/services/axios'
 import { User } from '@prisma/client'
+import { useRouter } from 'next/navigation'
 import { destroyCookie, parseCookies, setCookie } from 'nookies'
 
 import { useAxios } from './useAxios'
@@ -24,6 +25,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User>()
   const [firstFetch, setFirstFetch] = useState(true)
   const [loading, setLoading] = useState(false)
+  const { refresh } = useRouter()
 
   useEffect(() => {
     async function retrieve() {
@@ -67,7 +69,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     api.defaults.headers.Authorization = ''
     destroyCookie(undefined, 'accessToken')
     setUser(undefined)
-    window.location.reload()
+    refresh()
   }
 
   return (
