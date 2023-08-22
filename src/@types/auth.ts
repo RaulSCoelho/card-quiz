@@ -6,6 +6,7 @@ export const signUpSchema = z
     username: boundedString({ field: 'Nome de Usuário', min: 6 }).nonempty('Por favor, insira um nome de usuário.'),
     name: z.string().optional(),
     email: z.string().email().optional(),
+    roles: z.array(z.enum(['ADMIN', 'USER'])).optional(),
     password: boundedString({ field: 'Senha', min: 6, max: 30 }).nonempty('Por favor, insira uma senha.'),
     confirmPassword: z.string().nonempty('Por favor, confirme sua senha.')
   })

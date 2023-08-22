@@ -1,11 +1,14 @@
-import { InputHTMLAttributes, forwardRef } from 'react'
+import { ComponentProps, forwardRef } from 'react'
 import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md'
 
 import { tv } from 'tailwind-variants'
 
-interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'className'> {
+interface CheckboxProps extends ComponentProps<'input'> {
+  label?: string
+  error?: string
   size?: number
   color?: 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error'
+  wrapperClassName?: string
 }
 
 const checkbox = tv({
@@ -22,15 +25,23 @@ const checkbox = tv({
 })
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(
-  { size = 24, color = 'primary', ...rest },
+  { label, error, wrapperClassName, className, size = 24, color = 'primary', ...rest },
   ref
 ) {
   const CheckBox = rest.checked ? MdCheckBox : MdCheckBoxOutlineBlank
 
   return (
-    <div className="relative w-fit">
-      <CheckBox size={size} className={checkbox({ color })} />
-      <input ref={ref} type="checkbox" className="absolute inset-0 cursor-pointer opacity-0" {...rest} />
+    <div className={wrapperClassName}>
+      {label && (
+        <label className="mb-2 block text-xs font-bold uppercase tracking-wide" htmlFor={rest.name}>
+          {label}
+        </label>
+      )}
+      <div className="relative w-fit">
+        <CheckBox size={size} className={checkbox({ color, className })} />
+        <input ref={ref} type="checkbox" className="absolute inset-0 cursor-pointer opacity-0" {...rest} />
+      </div>
+      {error && <p className="text-red-500">{error}</p>}
     </div>
   )
 })

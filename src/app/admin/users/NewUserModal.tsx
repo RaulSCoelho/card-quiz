@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { SignUpRequest, signUpSchema } from '@/@types/auth'
 import { Button } from '@/components/Buttons'
 import { Snackbar } from '@/components/Feedback/Snackbar'
 import { Input } from '@/components/Input'
+import { Checkbox } from '@/components/Input/Checkbox'
 import { Modal } from '@/components/Modal'
 import { useAxios } from '@/hooks/useAxios'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -21,10 +22,13 @@ interface NewUserModalProps {
 export function NewUserModal({ open, onClose, onCreate }: NewUserModalProps) {
   const {
     register,
+    watch,
+    setValue,
     handleSubmit,
     formState: { errors, isSubmitting }
   } = useForm<SignUpRequest>({ resolver: zodResolver(signUpSchema) })
   const [error, setError] = useState('')
+  const isAdmin = (watch('roles') || []).includes('ADMIN')
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async function onSubmit({ confirmPassword, ...newUser }: SignUpRequest) {
@@ -34,6 +38,11 @@ export function NewUserModal({ open, onClose, onCreate }: NewUserModalProps) {
     } else if (user) {
       onCreate?.(user)
     }
+  }
+
+  function toggleAdmin(e: ChangeEvent<HTMLInputElement>) {
+    if (e.target.checked) setValue('roles', ['ADMIN'])
+    else setValue('roles', undefined)
   }
 
   return (
@@ -57,6 +66,7 @@ export function NewUserModal({ open, onClose, onCreate }: NewUserModalProps) {
               error={errors.confirmPassword?.message}
               {...register('confirmPassword')}
             />
+            <Checkbox label="admin" value="ADMIN" checked={isAdmin} onChange={toggleAdmin} />
           </div>
           <Button type="submit" className="w-full" loading={isSubmitting}>
             Criar
