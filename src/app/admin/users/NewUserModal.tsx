@@ -41,8 +41,7 @@ export function NewUserModal({ open, onClose, onCreate }: NewUserModalProps) {
   }
 
   function toggleAdmin(e: ChangeEvent<HTMLInputElement>) {
-    if (e.target.checked) setValue('roles', ['ADMIN'])
-    else setValue('roles', undefined)
+    setValue('roles', e.target.checked ? ['ADMIN'] : undefined)
   }
 
   return (
