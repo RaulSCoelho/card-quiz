@@ -20,6 +20,7 @@
     "axios": "1.4.0",
     "bcryptjs": "2.4.3",
     "css-mediaquery": "0.1.2",
+    "date-fns": "^2.30.0",
     "jose": "4.14.4",
     "next": "13.4.19",
     "nookies": "2.5.2",

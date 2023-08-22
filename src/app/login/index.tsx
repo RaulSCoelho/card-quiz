@@ -25,7 +25,7 @@ export function LoginForm() {
     const { error } = await login({ login: logIn, password })
 
     if (error) {
-      setError(error || 'Wrong username or password')
+      setError(error || 'Nome de usuário ou senha incorretos')
     } else {
       window.location.href = query?.get('callbackUrl') || '/'
     }
@@ -37,28 +37,28 @@ export function LoginForm() {
 
   return (
     <div className="flex items-center justify-center pt-12">
-      <div className="w-full max-w-md space-y-8">
-        <h2 className="text-center text-3xl font-extrabold">Log in to your account</h2>
-        <form className="mt-8 space-y-4" onSubmit={handleSubmit(onSubmit)}>
+      <div className="w-full max-w-md space-y-4">
+        <h2 className="text-center text-3xl font-extrabold">Entrar na sua conta</h2>
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <Alert message={error} onClose={() => setError('')} className="mx-1 mb-3 shadow-md" type="error" />
           <div className="-space-y-px rounded-md shadow-sm">
             <Input
               className="rounded-b-none rounded-t-md border border-gray-300"
-              placeholder="Username or email address"
+              placeholder="Nome de usuário ou endereço de email"
               autoComplete="username"
               {...register('login')}
             />
             <Input
               type="password"
               className="rounded-b-md rounded-t-none border border-gray-300"
-              placeholder="Password"
+              placeholder="Senha"
               autoComplete="current-password"
               {...register('password')}
             />
           </div>
           <div className="flex items-center justify-center">
             <Button type="submit" className="w-full rounded-md" loading={loading}>
-              Sign in
+              Entrar
             </Button>
           </div>
         </form>

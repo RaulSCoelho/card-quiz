@@ -38,12 +38,12 @@ class AuthApi {
       const user = await this.prisma.findFirst({ where: { OR: [{ username: login }, { email: login }] } })
 
       if (!user) {
-        throw new Error('Invalid username or password')
+        throw new Error('Nome de usuário ou senha inválidos')
       }
 
       const validPass = await isHashValid(password, user.password)
       if (!validPass) {
-        throw new Error('Invalid username or password')
+        throw new Error('Nome de usuário ou senha inválidos')
       }
 
       const accessToken = await generateToken({ user })

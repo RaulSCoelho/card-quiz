@@ -19,8 +19,8 @@ const sidebarAccordion = tv({
   base: 'rounded-lg transition-colors',
   variants: {
     selected: {
-      true: 'bg-dark/[.15] dark:bg-light/[.15]',
-      false: 'hover:bg-dark/10 dark:hover:bg-light/10'
+      true: 'bg-primary-light/[.15] dark:bg-primary-dark/[.15]',
+      false: 'hover:bg-primary-light/10 dark:hover:bg-primary-dark/10'
     },
     open: {
       true: '',
@@ -31,7 +31,7 @@ const sidebarAccordion = tv({
     {
       open: false,
       selected: true,
-      className: 'bg-dark/20 hover:bg-dark/25 dark:bg-light/20 dark:hover:bg-light/25'
+      className: 'bg-primary-light/20 hover:bg-primary-light/25 dark:bg-primary-dark/20 dark:hover:bg-primary-dark/25'
     }
   ],
   defaultVariants: {

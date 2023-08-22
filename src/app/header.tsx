@@ -6,7 +6,7 @@ import { IconButton } from '@/components/Buttons/IconButton'
 import { ThemeSwitcher } from '@/components/Switchers/ThemeSwitcher'
 import Link from 'next/link'
 
-import { useMainSidebar } from './(Global)/MainSidebar'
+import { useMainSidebar } from './(global)/MainSidebar'
 
 export function Header() {
   const { open: openSidebar } = useMainSidebar()
@@ -21,7 +21,7 @@ export function Header() {
           className="rounded bg-primary-light text-light dark:bg-primary-dark dark:text-slate-400"
         />
         <Link href="/" className="text-lg font-semibold">
-          Card Quiz
+          Cards Quiz
         </Link>
       </div>
       <ThemeSwitcher />
