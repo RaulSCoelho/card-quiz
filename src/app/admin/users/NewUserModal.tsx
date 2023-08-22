@@ -50,7 +50,7 @@ export function NewUserModal({ open, onClose, onCreate }: NewUserModalProps) {
               error={errors.email?.message}
               {...register('email', { setValueAs: value => value || undefined })}
             />
-            <Input type="password" label="password" error={errors.password?.message} {...register('password')} />
+            <Input type="password" label="senha" error={errors.password?.message} {...register('password')} />
             <Input
               type="password"
               label="confirme sua senha"

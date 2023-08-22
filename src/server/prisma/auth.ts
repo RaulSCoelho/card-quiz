@@ -13,10 +13,10 @@ class AuthApi {
 
   async register({ payload }: { payload: Prisma.UserCreateInput }) {
     try {
-      const { username, email, password } = payload
-      const existingUser = await this.prisma.findFirst({ where: { OR: [{ username }, { email }] } })
+      const { email, password } = payload
+      const existingUser = await this.prisma.findFirst({ where: { email } })
       if (existingUser) {
-        throw new Error('User with this username or email already exists!')
+        throw new Error('Usuário com este email já existe!')
       }
 
       const hashedPassword = await hashWord(password)
@@ -27,7 +27,7 @@ class AuthApi {
       return { user }
     } catch (error: any) {
       if (error?.code === 'P2002') {
-        return { error: new Error('User with this username already exists!') }
+        return { error: new Error('Usuário com este nome de usuário já existe!') }
       }
       return { error }
     }
