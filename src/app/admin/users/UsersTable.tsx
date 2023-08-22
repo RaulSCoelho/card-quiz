@@ -6,6 +6,7 @@ import { Button } from '@/components/Buttons'
 import { useAxios } from '@/hooks/useAxios'
 import { useConfirmationModal } from '@/hooks/useConfirmationModal'
 import { useLoading } from '@/hooks/useLoading'
+import { useUser } from '@/hooks/useUser'
 import { User } from '@prisma/client'
 import { format } from 'date-fns'
 
@@ -18,6 +19,7 @@ interface UsersTableProps {
 }
 
 export function UsersTable({ users, onCreateUser, onRemoveUser }: UsersTableProps) {
+  const { user: loggedUser } = useUser()
   const { open: openConfirmationModal } = useConfirmationModal()
   const { setLoading } = useLoading()
   const [newUserModalOpen, setNewUserModalOpen] = useState(false)
@@ -66,13 +68,15 @@ export function UsersTable({ users, onCreateUser, onRemoveUser }: UsersTableProp
               <p>{format(new Date(user.createdAt), 'dd/MM/yyyy HH:mm')}</p>
             </td>
             <td className="p-2 pl-4">
-              <div>
-                <BiTrash
-                  size={20}
-                  className="cursor-pointer hover:text-red-500 dark:hover:text-red-600"
-                  onClick={() => deleteUser(user)}
-                />
-              </div>
+              {user.id !== loggedUser?.id && (
+                <div>
+                  <BiTrash
+                    size={20}
+                    className="cursor-pointer hover:text-red-500 dark:hover:text-red-600"
+                    onClick={() => deleteUser(user)}
+                  />
+                </div>
+              )}
             </td>
           </tr>
         ))}
