@@ -61,7 +61,7 @@ export function CardModal({ open, onClose, onConfirmCard, onRemoveCard, defaultV
         />
         <div className="flex justify-end gap-2">
           {defaultValues && (
-            <Button className="aspect-square bg-red-500 p-1 text-white" onClick={handleConfirmCard}>
+            <Button className="aspect-square bg-red-500 p-1 text-white dark:bg-red-500" onClick={handleConfirmCard}>
               <BiTrash size={24} onClick={removeCard} />
             </Button>
           )}
