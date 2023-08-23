@@ -7,8 +7,12 @@ interface OpenConfirmationModalProps {
   onCancel(): void
 }
 
-interface ConfirmationModalState extends OpenConfirmationModalProps {
+interface ConfirmationModalState {
   isOpen: boolean
+  title?: string
+  question?: string
+  onConfirm?(): void
+  onCancel?(): void
   open(props: OpenConfirmationModalProps): void
   close(): void
 }
