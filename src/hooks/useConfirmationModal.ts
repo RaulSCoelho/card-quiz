@@ -3,18 +3,18 @@ import { create } from 'zustand'
 interface OpenConfirmationModalProps {
   title?: string
   question?: string
-  onConfirm(): void
-  onCancel(): void
+  onConfirm?(): void
+  onCancel?(): void
 }
 
 interface ConfirmationModalState {
   isOpen: boolean
-  open(props: OpenConfirmationModalProps): void
-  close(): void
   title?: string
   question?: string
-  onConfirm?(): void
-  onCancel?(): void
+  onConfirm(): void
+  onCancel(): void
+  close(): void
+  open(props: OpenConfirmationModalProps): void
 }
 
 export const useConfirmationModal = create<ConfirmationModalState>(set => ({
