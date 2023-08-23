@@ -9,12 +9,12 @@ interface OpenConfirmationModalProps {
 
 interface ConfirmationModalState {
   isOpen: boolean
+  open(props: OpenConfirmationModalProps): void
+  close(): void
   title?: string
   question?: string
   onConfirm?(): void
   onCancel?(): void
-  open(props: OpenConfirmationModalProps): void
-  close(): void
 }
 
 export const useConfirmationModal = create<ConfirmationModalState>(set => ({
