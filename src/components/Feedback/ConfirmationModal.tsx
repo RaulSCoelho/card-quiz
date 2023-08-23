@@ -5,8 +5,8 @@ interface ConfirmationModalProps {
   open: boolean
   title?: string
   question?: string
-  onConfirm?(): void
-  onCancel?(): void
+  onConfirm(): void
+  onCancel(): void
 }
 
 export function ConfirmationModal({ open, title, question, onConfirm, onCancel }: ConfirmationModalProps) {

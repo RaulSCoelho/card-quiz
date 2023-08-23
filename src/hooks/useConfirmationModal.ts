@@ -3,8 +3,8 @@ import { create } from 'zustand'
 interface OpenConfirmationModalProps {
   title?: string
   question?: string
-  onConfirm?(): void
-  onCancel?(): void
+  onConfirm(): void
+  onCancel(): void
 }
 
 interface ConfirmationModalState extends OpenConfirmationModalProps {
@@ -15,6 +15,8 @@ interface ConfirmationModalState extends OpenConfirmationModalProps {
 
 export const useConfirmationModal = create<ConfirmationModalState>(set => ({
   isOpen: false,
+  onConfirm: () => {},
+  onCancel: () => {},
   open: (props: OpenConfirmationModalProps) => set(state => open(state, props)),
   close: () => set(() => ({ isOpen: false }))
 }))
