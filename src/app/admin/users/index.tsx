@@ -1,19 +1,18 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-import { useAxios } from '@/hooks/useAxios'
 import { User } from '@prisma/client'
 
 import { UsersList } from './UsersList'
 import { UsersTable } from './UsersTable'
 
-export function Users() {
-  const [users, setUsers] = useState<User[]>([])
+interface UsersProps {
+  users: User[]
+}
 
-  useEffect(() => {
-    useAxios.get<User[]>('/api/users').then(({ data }) => setUsers(data || []))
-  }, [])
+export function Users({ users: initialUsers }: UsersProps) {
+  const [users, setUsers] = useState<User[]>(initialUsers)
 
   function onCreateUser(user: User) {
     setUsers([...users, user])

@@ -2,6 +2,8 @@ import React, { InputHTMLAttributes } from 'react'
 
 import { tv } from 'tailwind-variants'
 
+import { InputLabel } from './InputLabel'
+
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
   error?: string
@@ -18,11 +20,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
 ) {
   return (
     <div className={wrapperClassName}>
-      {label && (
-        <label className="mb-2 block text-xs font-bold uppercase tracking-wide" htmlFor={rest.name}>
-          {label}
-        </label>
-      )}
+      {label && <InputLabel htmlFor={rest.name}>{label}</InputLabel>}
       <input ref={ref} type={type || 'text'} className={input({ className })} {...rest} />
       {error && <p className="text-red-500">{error}</p>}
     </div>

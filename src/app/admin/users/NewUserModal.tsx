@@ -45,33 +45,33 @@ export function NewUserModal({ open, onClose, onCreate }: NewUserModalProps) {
   }
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <Modal.Content className="min-w-[min(442px,calc(100vw-64px))]">
+    <Modal open={open} onClose={onClose} onSubmit={handleSubmit(onSubmit)}>
+      <Modal.Content className="min-w-[min(442px,calc(100vw-64px))] pb-0">
         <Snackbar open={!!error} message={error} type="error" position="mid-top" onClose={() => setError('')} />
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <h2 className="mb-4 text-center text-3xl font-extrabold">Criar um usuário</h2>
-          <div className="mb-4 space-y-2">
-            <Input label="username" error={errors.username?.message} {...register('username')} />
-            <Input label="Nome completo" error={errors.name?.message} {...register('name')} />
-            <Input
-              label="email"
-              error={errors.email?.message}
-              {...register('email', { setValueAs: value => value || undefined })}
-            />
-            <Input type="password" label="senha" error={errors.password?.message} {...register('password')} />
-            <Input
-              type="password"
-              label="confirme sua senha"
-              error={errors.confirmPassword?.message}
-              {...register('confirmPassword')}
-            />
-            <Checkbox label="admin" value="ADMIN" checked={isAdmin} onChange={toggleAdmin} />
-          </div>
-          <Button type="submit" className="w-full" loading={isSubmitting}>
-            Criar
-          </Button>
-        </form>
+        <h2 className="mb-4 text-center text-3xl font-extrabold">Criar um usuário</h2>
+        <div className="space-y-2">
+          <Input label="username" error={errors.username?.message} {...register('username')} />
+          <Input label="Nome completo" error={errors.name?.message} {...register('name')} />
+          <Input
+            label="email"
+            error={errors.email?.message}
+            {...register('email', { setValueAs: value => value || undefined })}
+          />
+          <Input type="password" label="senha" error={errors.password?.message} {...register('password')} />
+          <Input
+            type="password"
+            label="confirme sua senha"
+            error={errors.confirmPassword?.message}
+            {...register('confirmPassword')}
+          />
+          <Checkbox label="admin" value="ADMIN" checked={isAdmin} onChange={toggleAdmin} />
+        </div>
       </Modal.Content>
+      <Modal.Actions>
+        <Button type="submit" loading={isSubmitting}>
+          Criar
+        </Button>
+      </Modal.Actions>
     </Modal>
   )
 }

@@ -3,6 +3,8 @@ import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md'
 
 import { tv } from 'tailwind-variants'
 
+import { InputLabel } from './InputLabel'
+
 interface CheckboxProps extends ComponentProps<'input'> {
   label?: string
   error?: string
@@ -32,11 +34,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
 
   return (
     <div className={wrapperClassName}>
-      {label && (
-        <label className="mb-2 block text-xs font-bold uppercase tracking-wide" htmlFor={rest.name}>
-          {label}
-        </label>
-      )}
+      {label && <InputLabel htmlFor={rest.name}>{label}</InputLabel>}
       <div className="relative w-fit">
         <CheckBox size={size} className={checkbox({ color, className })} />
         <input ref={ref} type="checkbox" className="absolute inset-0 cursor-pointer opacity-0" {...rest} />

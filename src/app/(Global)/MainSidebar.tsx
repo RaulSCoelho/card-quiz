@@ -1,7 +1,7 @@
 'use client'
 
 import { GoPeople } from 'react-icons/go'
-import { IoHomeOutline } from 'react-icons/io5'
+import { IoGameControllerOutline, IoHomeOutline } from 'react-icons/io5'
 import { MdLogin, MdOutlineAdminPanelSettings as AdminIcon } from 'react-icons/md'
 
 import { Button } from '@/components/Buttons'
@@ -22,7 +22,10 @@ export const useMainSidebar = create<SidebarState>(set => ({
   close: () => set(() => ({ isOpen: false }))
 }))
 
-const adminPaths = [{ title: 'Users', path: '/users', icon: GoPeople }]
+const adminPaths = [
+  { title: 'Users', path: '/users', icon: GoPeople },
+  { title: 'Games', path: '/games', icon: IoGameControllerOutline }
+]
 
 export function MainSidebar() {
   const { isOpen, close } = useMainSidebar()

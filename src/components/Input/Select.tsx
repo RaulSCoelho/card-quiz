@@ -2,6 +2,8 @@ import { SelectHTMLAttributes, forwardRef } from 'react'
 
 import { tv } from 'tailwind-variants'
 
+import { InputLabel } from './InputLabel'
+
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string
   error?: string
@@ -18,11 +20,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
 ) {
   return (
     <div className={wrapperClassName}>
-      {label && (
-        <label className="mb-2 block text-xs font-bold uppercase tracking-wide" htmlFor={rest.name}>
-          {label}
-        </label>
-      )}
+      {label && <InputLabel htmlFor={rest.name}>{label}</InputLabel>}
       <select ref={ref} className={select({ className })} {...rest}>
         {children}
       </select>
