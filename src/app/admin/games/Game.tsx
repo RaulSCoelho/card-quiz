@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { MouseEvent, useState } from 'react'
 import { BiTrash } from 'react-icons/bi'
 
 import { useAxios } from '@/hooks/useAxios'
@@ -31,7 +31,8 @@ export function Game({ game: initialGame, onRemoveGame }: GameProps) {
     })
   }
 
-  async function handleRemoveGame() {
+  async function handleRemoveGame(e: MouseEvent) {
+    e.stopPropagation()
     openConfirmationModal({
       title: 'Remover Jogo',
       question: `Tem certeza que deseja remover o jogo ${game.name}?`,
