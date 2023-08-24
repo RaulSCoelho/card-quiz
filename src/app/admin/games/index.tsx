@@ -32,7 +32,7 @@ export function Games({ games: initialGames }: GamesProps) {
   }
 
   return (
-    <div className="px-4">
+    <div>
       <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
         {games.map(game => (
           <Game game={game} onRemoveGame={onRemoveGame} key={game.id} />

@@ -1,15 +1,15 @@
 'use client'
 
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { SignUpRequest, signUpSchema } from '@/@types/auth'
 import { Button } from '@/components/Buttons'
-import { Snackbar } from '@/components/Feedback/Snackbar'
 import { Input } from '@/components/Input'
 import { Checkbox } from '@/components/Input/Checkbox'
 import { Modal } from '@/components/Modal'
 import { useAxios } from '@/hooks/useAxios'
+import { useSnackbar } from '@/hooks/useSnackbar'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { User } from '@prisma/client'
 
@@ -27,14 +27,18 @@ export function NewUserModal({ open, onClose, onCreate }: NewUserModalProps) {
     handleSubmit,
     formState: { errors, isSubmitting }
   } = useForm<SignUpRequest>({ resolver: zodResolver(signUpSchema) })
-  const [error, setError] = useState('')
+  const { open: openSnackbar } = useSnackbar()
   const isAdmin = (watch('roles') || []).includes('ADMIN')
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async function onSubmit({ confirmPassword, ...newUser }: SignUpRequest) {
     const { data: user, error } = await useAxios.post<User>('api/register', newUser)
-    if (error) {
-      setError(error)
+    if (typeof error === 'string') {
+      openSnackbar({
+        message: error,
+        type: 'error',
+        position: 'mid-top'
+      })
     } else if (user) {
       onCreate?.(user)
     }
@@ -47,7 +51,6 @@ export function NewUserModal({ open, onClose, onCreate }: NewUserModalProps) {
   return (
     <Modal open={open} onClose={onClose} onSubmit={handleSubmit(onSubmit)}>
       <Modal.Content className="min-w-[min(442px,calc(100vw-64px))] pb-0">
-        <Snackbar open={!!error} message={error} type="error" position="mid-top" onClose={() => setError('')} />
         <h2 className="mb-4 text-center text-3xl font-extrabold">Criar um usuário</h2>
         <div className="space-y-2">
           <Input label="username" error={errors.username?.message} {...register('username')} />

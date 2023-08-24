@@ -1,4 +1,4 @@
-import { CreateGame } from '@/@types/games'
+import { CreateGame, UpdateGame } from '@/@types/games'
 import { Prisma } from '@prisma/client'
 
 import { prisma } from '.'
@@ -34,6 +34,29 @@ class GamesApi {
     try {
       const game = await this.prisma.create({
         data: { ...newGame, cards: { createMany: { data: cards } } },
+        include: { cards: true }
+      })
+      return { game }
+    } catch (error: any) {
+      return { error }
+    }
+  }
+
+  async put({ id, cards = [], cardsToDelete, ...editedGame }: UpdateGame) {
+    try {
+      const cardsCreate = cards.filter(c => !c.id)
+      const cardsUpdate = cards.filter(c => c.id)
+      const game = await this.prisma.update({
+        where: { id },
+        data: {
+          ...editedGame,
+          cards: {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            update: cardsUpdate.map(({ id, gameId, ...card }) => ({ data: card, where: { id } })),
+            createMany: cardsCreate.length > 0 ? { data: cardsCreate } : undefined,
+            delete: cardsToDelete
+          }
+        },
         include: { cards: true }
       })
       return { game }

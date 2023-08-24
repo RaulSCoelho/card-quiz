@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { LuPlus } from 'react-icons/lu'
 
-import { CreateGame, createGameSchema } from '@/@types/games'
+import { UpdateGame, updateGameSchema } from '@/@types/games'
 import { Button } from '@/components/Buttons'
 import { IconButton } from '@/components/Buttons/IconButton'
 import { Input } from '@/components/Input'
@@ -15,15 +15,16 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { CardModal } from './CardModal'
 
-interface NewGameModalProps {
+interface EditGameModalProps {
+  game: GameWithCards
   open: boolean
   onClose(): void
-  onCreate?(game: GameWithCards): void
+  onSave?(game: GameWithCards): void
 }
 
-type Card = CreateGame['cards'][number]
+type Card = NonNullable<UpdateGame['cards']>[number]
 
-export function NewGameModal({ open, onClose, onCreate }: NewGameModalProps) {
+export function EditGameModal({ game, open, onClose, onSave }: EditGameModalProps) {
   const {
     register,
     watch,
@@ -31,14 +32,15 @@ export function NewGameModal({ open, onClose, onCreate }: NewGameModalProps) {
     setError,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<CreateGame>({ resolver: zodResolver(createGameSchema) })
-  const [newCardModalOpen, setNewCardModalOpen] = useState(false)
+  } = useForm<UpdateGame>({ resolver: zodResolver(updateGameSchema), defaultValues: game as UpdateGame })
+  const [editCardModalOpen, setEditCardModalOpen] = useState(false)
   const [cardToEdit, setCardToEdit] = useState<Card>()
   const { open: openSnackbar } = useSnackbar()
   const cards = watch('cards') || []
+  const cardsToDelete = watch('cardsToDelete') || []
 
-  async function onSubmit(newGame: CreateGame) {
-    const { data: game, error } = await useAxios.post<GameWithCards>('api/games', newGame)
+  async function onSubmit(editedGame: UpdateGame) {
+    const { data: game, error } = await useAxios.put<GameWithCards>(`api/games/${editedGame.id}`, editedGame)
     if (typeof error === 'string') {
       openSnackbar({
         message: error,
@@ -46,12 +48,12 @@ export function NewGameModal({ open, onClose, onCreate }: NewGameModalProps) {
         position: 'mid-top'
       })
     } else if (game) {
-      onCreate?.(game)
+      onSave?.(game)
     }
   }
 
-  function closeNewCardModal() {
-    setNewCardModalOpen(false)
+  function closeEditCardModal() {
+    setEditCardModalOpen(false)
   }
 
   function addCard(card: Card) {
@@ -68,14 +70,20 @@ export function NewGameModal({ open, onClose, onCreate }: NewGameModalProps) {
   }
 
   function removeCard() {
-    const newCards = cards.filter(c => c.question !== cardToEdit?.question)
-    setValue('cards', newCards)
+    if (cardToEdit) {
+      const editCards = cards.filter(c => c.question !== cardToEdit.question)
+      setValue('cards', editCards)
+      if (cardToEdit.id && !cardsToDelete.find(c => c.id === cardToEdit.id)) {
+        cardsToDelete.push({ id: cardToEdit.id })
+        setValue('cardsToDelete', cardsToDelete)
+      }
+    }
   }
 
   return (
     <Modal open={open} onClose={onClose} onSubmit={handleSubmit(onSubmit)}>
       <Modal.Content className="min-w-[min(442px,calc(100vw-64px))] max-w-[442px] pb-0">
-        <h2 className="mb-4 text-center text-3xl font-extrabold">Criar um jogo</h2>
+        <h2 className="mb-4 text-center text-3xl font-extrabold">Editar jogo</h2>
         <div className="mb-4 space-y-2">
           <Input label="nome do jogo" error={errors.name?.message} {...register('name')} />
           <Input label="descrição" error={errors.description?.message} {...register('description')} />
@@ -105,15 +113,15 @@ export function NewGameModal({ open, onClose, onCreate }: NewGameModalProps) {
             )}
           </div>
           <div>
-            <IconButton icon={LuPlus} rippleColor="#818cf8" onClick={() => setNewCardModalOpen(true)} />
-            <CardModal open={newCardModalOpen} onClose={closeNewCardModal} onConfirmCard={addCard} />
+            <IconButton icon={LuPlus} rippleColor="#818cf8" onClick={() => setEditCardModalOpen(true)} />
+            <CardModal open={editCardModalOpen} onClose={closeEditCardModal} onConfirmCard={addCard} />
           </div>
         </div>
         {errors.cards && <p className="text-red-500">{errors.cards.message}</p>}
       </Modal.Content>
       <Modal.Actions>
         <Button type="submit" loading={isSubmitting}>
-          Criar
+          Salvar
         </Button>
       </Modal.Actions>
     </Modal>
