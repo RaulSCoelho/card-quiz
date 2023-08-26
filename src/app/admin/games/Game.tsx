@@ -1,9 +1,6 @@
-import { MouseEvent, useState } from 'react'
-import { BiTrash } from 'react-icons/bi'
+import { useState } from 'react'
 
-import { useAxios } from '@/hooks/useAxios'
-import { useConfirmationModal } from '@/hooks/useConfirmationModal'
-import { useLoading } from '@/hooks/useLoading'
+import { Logo } from '@/components/Images/Logo'
 import { useSnackbar } from '@/hooks/useSnackbar'
 import { GameWithCards } from '@/server/prisma/games'
 import { format } from 'date-fns'
@@ -16,8 +13,6 @@ interface GameProps {
 }
 
 export function Game({ game: initialGame, onRemoveGame }: GameProps) {
-  const { open: openConfirmationModal } = useConfirmationModal()
-  const { setLoading } = useLoading()
   const { open: openSnackBar } = useSnackbar()
   const [editGameModalOpen, setEditGameModalOpen] = useState(false)
   const [game, setGame] = useState(initialGame)
@@ -31,36 +26,14 @@ export function Game({ game: initialGame, onRemoveGame }: GameProps) {
     })
   }
 
-  async function handleRemoveGame(e: MouseEvent) {
-    e.stopPropagation()
-    openConfirmationModal({
-      title: 'Remover Jogo',
-      question: `Tem certeza que deseja remover o jogo ${game.name}?`,
-      onConfirm: async () => {
-        setLoading(true)
-        const { ok } = await useAxios.delete(`/api/games/${game.id}`)
-        ok && onRemoveGame?.(game)
-        setLoading(false)
-      }
-    })
-  }
-
   return (
-    <div>
+    <div className="rounded-md bg-primary-light p-2">
       <div
-        className="cursor-pointer rounded bg-primary-light/10 px-4 py-3 shadow"
+        className="flex aspect-square cursor-pointer flex-col items-center justify-center rounded bg-white px-4 py-3 shadow"
         onClick={() => setEditGameModalOpen(true)}
       >
-        <div className="flex items-center justify-between">
-          <p className="text-lg font-bold">{game.name}</p>
-          <div>
-            <BiTrash
-              size={20}
-              className="cursor-pointer hover:text-red-500 dark:hover:text-red-600"
-              onClick={handleRemoveGame}
-            />
-          </div>
-        </div>
+        <Logo className="mb-4 h-auto max-h-[50%] w-auto max-w-full" />
+        <p className="text-lg font-bold">{game.name}</p>
         <p>{game.description}</p>
         <p>{format(new Date(game.createdAt), 'dd/MM/yyyy HH:mm')}</p>
       </div>
@@ -69,6 +42,7 @@ export function Game({ game: initialGame, onRemoveGame }: GameProps) {
         open={editGameModalOpen}
         onClose={() => setEditGameModalOpen(false)}
         onSave={onSaveGame}
+        onRemove={onRemoveGame}
       />
     </div>
   )

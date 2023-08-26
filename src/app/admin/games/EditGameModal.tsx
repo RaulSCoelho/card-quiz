@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { MouseEvent, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { BiTrash } from 'react-icons/bi'
 import { LuPlus } from 'react-icons/lu'
 
 import { UpdateGame, updateGameSchema } from '@/@types/games'
@@ -9,6 +10,8 @@ import { Input } from '@/components/Input'
 import { InputLabel } from '@/components/Input/InputLabel'
 import { Modal } from '@/components/Modal'
 import { useAxios } from '@/hooks/useAxios'
+import { useConfirmationModal } from '@/hooks/useConfirmationModal'
+import { useLoading } from '@/hooks/useLoading'
 import { useSnackbar } from '@/hooks/useSnackbar'
 import { GameWithCards } from '@/server/prisma/games'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -20,13 +23,15 @@ interface EditGameModalProps {
   open: boolean
   onClose(): void
   onSave?(game: GameWithCards): void
+  onRemove?(game: GameWithCards): void
 }
 
 type Card = NonNullable<UpdateGame['cards']>[number]
 
-export function EditGameModal({ game, open, onClose, onSave }: EditGameModalProps) {
+export function EditGameModal({ game, open, onClose, onSave, onRemove }: EditGameModalProps) {
   const {
     register,
+    reset,
     watch,
     setValue,
     setError,
@@ -36,6 +41,8 @@ export function EditGameModal({ game, open, onClose, onSave }: EditGameModalProp
   const [editCardModalOpen, setEditCardModalOpen] = useState(false)
   const [cardToEdit, setCardToEdit] = useState<Card>()
   const { open: openSnackbar } = useSnackbar()
+  const { open: openConfirmationModal } = useConfirmationModal()
+  const { setLoading } = useLoading()
   const cards = watch('cards') || []
   const cardsToDelete = watch('cardsToDelete') || []
 
@@ -80,6 +87,20 @@ export function EditGameModal({ game, open, onClose, onSave }: EditGameModalProp
     }
   }
 
+  async function handleRemoveGame(e: MouseEvent) {
+    e.stopPropagation()
+    openConfirmationModal({
+      title: 'Remover Jogo',
+      question: `Tem certeza que deseja remover o jogo ${game.name}?`,
+      onConfirm: async () => {
+        setLoading(true)
+        const { ok } = await useAxios.delete(`/api/games/${game.id}`)
+        ok && onRemove?.(game)
+        setLoading(false)
+      }
+    })
+  }
+
   return (
     <Modal open={open} onClose={onClose} onSubmit={handleSubmit(onSubmit)}>
       <Modal.Content className="min-w-[min(442px,calc(100vw-64px))] max-w-[442px] pb-0">
@@ -120,6 +141,15 @@ export function EditGameModal({ game, open, onClose, onSave }: EditGameModalProp
         {errors.cards && <p className="text-red-500">{errors.cards.message}</p>}
       </Modal.Content>
       <Modal.Actions>
+        <IconButton
+          icon={BiTrash}
+          size={20}
+          className="cursor-pointer hover:text-red-500 dark:hover:text-red-600"
+          onClick={handleRemoveGame}
+        />
+        <Button className="bg-slate-500" loading={isSubmitting} onClick={() => reset(game as UpdateGame)}>
+          Cancelar
+        </Button>
         <Button type="submit" loading={isSubmitting}>
           Salvar
         </Button>
