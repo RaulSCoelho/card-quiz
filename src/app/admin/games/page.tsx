@@ -8,6 +8,7 @@ export const metadata = {
 
 export default async function Page() {
   const { games } = await gamesApi.get()
+
   return (
     <div className="px-4">
       <h1 className="mb-4 text-center font-sans text-4xl font-bold">Jogos</h1>
