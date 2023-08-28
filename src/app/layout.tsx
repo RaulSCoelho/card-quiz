@@ -33,9 +33,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             >
               <Header />
               <MainSidebar />
-              <div className="h-[calc(100%-56px)] px-5 py-5 sm:px-[10%] lg:px-[15%] xl:px-[20%]">
-                <div className="h-full">{children}</div>
-              </div>
+              <div className="h-[calc(100%-56px)] px-5 py-5 sm:px-[10%] lg:px-[15%] xl:px-[20%]">{children}</div>
             </div>
             <ConfirmationModalControl />
             <SnackbarControl />
