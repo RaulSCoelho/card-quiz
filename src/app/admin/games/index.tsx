@@ -19,7 +19,6 @@ export function Games({ games: initialGames }: GamesProps) {
 
   function onCreateGame(game: GameWithCards) {
     setGames([...games, game])
-    closeGameModal()
   }
 
   async function onRemoveGame(game: GameWithCards) {

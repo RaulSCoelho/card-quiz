@@ -55,6 +55,11 @@ export function EditGameModal({ game, open, onClose, onSave, onRemove }: EditGam
         position: 'mid-top'
       })
     } else if (game) {
+      openSnackbar({
+        message: 'Jogo salvo com sucesso',
+        type: 'success',
+        position: 'mid-top'
+      })
       onSave?.(game)
     }
   }

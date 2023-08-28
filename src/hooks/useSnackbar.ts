@@ -14,12 +14,13 @@ interface SnackbarState extends OpenSnackbarProps {
   close(): void
 }
 
+const defaultValues: OpenSnackbarProps = { message: '', type: 'success', position: undefined, duration: undefined }
+
 export const useSnackbar = create<SnackbarState>(set => ({
+  ...defaultValues,
   isOpen: false,
-  message: '',
-  type: 'success',
   open: (props: OpenSnackbarProps) => set(() => open(props)),
-  close: () => set(() => ({ isOpen: false }))
+  close: () => set(() => ({ ...defaultValues, isOpen: false }))
 }))
 
 function open({ message, type, position, duration }: OpenSnackbarProps) {

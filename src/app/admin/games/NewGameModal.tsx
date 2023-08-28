@@ -46,7 +46,13 @@ export function NewGameModal({ open, onClose, onCreate }: NewGameModalProps) {
         position: 'mid-top'
       })
     } else if (game) {
+      openSnackbar({
+        message: 'Jogo criado com sucesso',
+        type: 'success',
+        position: 'mid-top'
+      })
       onCreate?.(game)
+      onClose()
     }
   }
 

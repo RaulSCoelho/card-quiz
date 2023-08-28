@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
 import { Logo } from '@/components/Images/Logo'
-import { useSnackbar } from '@/hooks/useSnackbar'
 import { GameWithCards } from '@/server/prisma/games'
 import { format } from 'date-fns'
 
@@ -13,18 +12,8 @@ interface GameProps {
 }
 
 export function Game({ game: initialGame, onRemoveGame }: GameProps) {
-  const { open: openSnackBar } = useSnackbar()
   const [editGameModalOpen, setEditGameModalOpen] = useState(false)
   const [game, setGame] = useState(initialGame)
-
-  function onSaveGame(editedGame: GameWithCards) {
-    setGame(editedGame)
-    openSnackBar({
-      message: 'Jogo salvo com sucesso',
-      type: 'success',
-      position: 'mid-top'
-    })
-  }
 
   return (
     <div>
@@ -41,7 +30,7 @@ export function Game({ game: initialGame, onRemoveGame }: GameProps) {
         game={game}
         open={editGameModalOpen}
         onClose={() => setEditGameModalOpen(false)}
-        onSave={onSaveGame}
+        onSave={setGame}
         onRemove={onRemoveGame}
       />
     </div>
