@@ -2,6 +2,7 @@ import { gamesApi } from '@/server/prisma/games'
 
 import { Games } from '.'
 
+export const dynamic = 'force-dynamic'
 export const metadata = {
   title: 'Games'
 }

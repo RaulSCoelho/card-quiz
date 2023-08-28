@@ -2,6 +2,7 @@ import { usersApi } from '@/server/prisma/users'
 
 import { Users } from '.'
 
+export const dynamic = 'force-dynamic'
 export const metadata = {
   title: 'Users'
 }
