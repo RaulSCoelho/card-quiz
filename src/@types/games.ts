@@ -4,6 +4,7 @@ export const updateGameSchema = z
   .object({
     id: z.string().nonempty('"id" é um campo obrigatório'),
     name: z.string().nonempty('Por favor, insira o nome do jogo.'),
+    logo: z.string().nonempty('Por favor, insira a logo do jogo.'),
     description: z.string().optional(),
     cards: z
       .array(
@@ -31,6 +32,7 @@ export const updateGameSchema = z
 
 export const createGameSchema = z.object({
   name: z.string().nonempty('Por favor, insira o nome do jogo.'),
+  logo: z.string().nonempty('Por favor, insira a logo do jogo.'),
   description: z.string().optional(),
   cards: z
     .array(

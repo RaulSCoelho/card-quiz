@@ -12,6 +12,8 @@
     "schema": "src/server/prisma/schema.prisma"
   },
   "dependencies": {
+    "@emoji-mart/data": "^1.1.2",
+    "@emoji-mart/react": "^1.1.1",
     "@hookform/resolvers": "3.2.0",
     "@prisma/client": "^5.2.0",
     "@typescript-eslint/eslint-plugin": "6.4.0",
@@ -21,6 +23,7 @@
     "bcryptjs": "2.4.3",
     "css-mediaquery": "0.1.2",
     "date-fns": "^2.30.0",
+    "emoji-mart": "^5.5.2",
     "jose": "4.14.4",
     "next": "13.4.19",
     "nookies": "2.5.2",

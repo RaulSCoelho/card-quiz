@@ -11,6 +11,9 @@ import { Modal } from '@/components/Modal'
 import { useAxios } from '@/hooks/useAxios'
 import { useSnackbar } from '@/hooks/useSnackbar'
 import { GameWithCards } from '@/server/prisma/games'
+import data from '@emoji-mart/data'
+import i18n from '@emoji-mart/data/i18n/pt.json'
+import EmojiPicker from '@emoji-mart/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { CardModal } from './CardModal'
@@ -33,9 +36,11 @@ export function NewGameModal({ open, onClose, onCreate }: NewGameModalProps) {
     formState: { errors, isSubmitting }
   } = useForm<CreateGame>({ resolver: zodResolver(createGameSchema) })
   const [newCardModalOpen, setNewCardModalOpen] = useState(false)
+  const [emojiPickerOpen, setEmojiPickerOpen] = useState(false)
   const [cardToEdit, setCardToEdit] = useState<Card>()
   const { open: openSnackbar } = useSnackbar()
   const cards = watch('cards') || []
+  const logo = watch('logo')
 
   async function onSubmit(newGame: CreateGame) {
     const { data: game, error } = await useAxios.post<GameWithCards>('api/games', newGame)
@@ -86,12 +91,36 @@ export function NewGameModal({ open, onClose, onCreate }: NewGameModalProps) {
     }
   }
 
+  function onSelectEmoji({ unified }: { unified: string }) {
+    setValue('logo', unified)
+    setEmojiPickerOpen(false)
+  }
+
   return (
     <Modal open={open} onClose={onClose} onSubmit={handleSubmit(onSubmit)}>
       <Modal.Content className="min-w-[min(442px,calc(100vw-64px))] max-w-[442px] pb-0">
         <h2 className="mb-4 text-center text-3xl font-extrabold">Criar um jogo</h2>
         <div className="mb-4 space-y-2">
-          <Input label="nome do jogo" error={errors.name?.message} {...register('name')} />
+          <div className="relative">
+            <div
+              className="font-apple-emoji w-fit cursor-pointer rounded-lg bg-gradient-to-br from-indigo-700 to-sky-400 p-2 text-white dark:from-violet-800 dark:from-15% dark:to-rose-400"
+              onClick={() => setEmojiPickerOpen(true)}
+            >
+              {logo ? String.fromCodePoint(parseInt(logo, 16)) : 'Selecione a logo'}
+            </div>
+            {emojiPickerOpen && (
+              <div className="absolute z-10 mt-2 shadow-2xl shadow-black/50">
+                <EmojiPicker
+                  i18n={i18n}
+                  data={data}
+                  locale="pt"
+                  onEmojiSelect={onSelectEmoji}
+                  onClickOutside={() => setEmojiPickerOpen(false)}
+                />
+              </div>
+            )}
+          </div>
+          <Input label="nome" error={errors.name?.message} {...register('name')} />
           <Input label="descrição" error={errors.description?.message} {...register('description')} />
         </div>
         <InputLabel>
