@@ -124,18 +124,18 @@ export function EditGameModal({ game, open, onClose, onSave, onRemove }: EditGam
 
   return (
     <Modal open={open} onClose={onClose} onSubmit={handleSubmit(onSubmit)}>
-      <Modal.Content className="min-w-[min(442px,calc(100vw-64px))] max-w-[442px] pb-0">
-        <h2 className="mb-4 text-center text-3xl font-extrabold">Editar jogo</h2>
+      <Modal.Content className="mb-2 min-w-[min(442px,calc(100vw-64px))] max-w-[442px] pb-0">
         <div className="mb-4 space-y-2">
-          <div className="relative">
+          <div className="relative flex flex-col items-center">
             <div
-              className="font-apple-emoji w-fit cursor-pointer rounded-lg bg-gradient-to-br from-indigo-700 to-sky-400 p-2 text-white dark:from-violet-800 dark:from-15% dark:to-rose-400"
+              className="w-fit cursor-pointer rounded-lg bg-gradient-to-br from-indigo-700 to-sky-400 p-2 text-7xl text-white dark:from-violet-800 dark:from-15% dark:to-rose-400"
               onClick={() => setEmojiPickerOpen(true)}
             >
-              {logo ? String.fromCodePoint(parseInt(logo, 16)) : 'Selecione a logo'}
+              {logo ? String.fromCodePoint(parseInt(logo, 16)) : '❔'}
             </div>
+            {errors.logo && <p className="text-red-500">{errors.logo.message}</p>}
             {emojiPickerOpen && (
-              <div className="absolute z-10 mt-2 shadow-2xl shadow-black/50">
+              <div className="absolute top-full z-10 mt-2 shadow-2xl shadow-black/50">
                 <EmojiPicker
                   i18n={i18n}
                   data={data}
