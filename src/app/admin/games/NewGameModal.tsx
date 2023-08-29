@@ -102,7 +102,7 @@ export function NewGameModal({ open, onClose, onCreate }: NewGameModalProps) {
         <div className="mb-4 space-y-2">
           <div className="relative flex flex-col items-center">
             <div
-              className="w-fit cursor-pointer rounded-lg bg-gradient-to-br from-indigo-700 to-sky-400 p-2 text-7xl text-white dark:from-violet-800 dark:from-15% dark:to-rose-400"
+              className="flex aspect-square w-fit cursor-pointer items-center justify-center rounded-lg bg-gradient-to-br from-indigo-700 to-sky-400 p-2 text-7xl text-white dark:from-violet-800 dark:from-15% dark:to-rose-400"
               onClick={() => setEmojiPickerOpen(true)}
             >
               {logo ? String.fromCodePoint(parseInt(logo, 16)) : '❔'}
