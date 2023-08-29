@@ -17,7 +17,8 @@ interface ModalProps extends ModalBaseProps {
 
 const modal = tv({
   slots: {
-    header: 'flex justify-between gap-4 pl-6 text-xl'
+    header: 'flex justify-between gap-4 pl-6 text-xl',
+    form: 'flex grow flex-col justify-center'
   },
   variants: {
     title: {
@@ -29,11 +30,13 @@ const modal = tv({
 
 const divContent = ({ children, ...props }: ComponentProps<'div'>) => <div {...props}>{children}</div>
 const formContent = React.forwardRef<HTMLFormElement, ComponentProps<'form'>>(function formContent(
-  { children, ...props },
+  { children, className, ...props },
   ref
 ) {
+  const { form } = modal()
+
   return (
-    <form ref={ref} {...props}>
+    <form ref={ref} className={form({ className })} {...props}>
       {children}
     </form>
   )

@@ -94,7 +94,7 @@ export function NewGameModal({ open, onClose, onCreate }: NewGameModalProps) {
 
   return (
     <Modal open={open} onClose={onClose} onSubmit={handleSubmit(onSubmit)}>
-      <Modal.Content className="mb-2 min-w-[min(442px,calc(100vw-64px))] max-w-[442px] pb-0">
+      <Modal.Content className="mb-2 pb-0 sm:min-w-[min(442px,calc(100vw-64px))] sm:max-w-[442px]">
         <div className="mb-4 space-y-2">
           <EmojiPicker emoji={logo} onSelect={onSelectEmoji} error={errors.logo?.message} />
           <Input label="nome" error={errors.name?.message} {...register('name')} />
