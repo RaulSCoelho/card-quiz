@@ -69,6 +69,9 @@ export function EditGameModal({ game, open, onClose, onSave, onRemove }: EditGam
   }
 
   function addCard(card: Card) {
+    if (cards.some(c => c.question === card.question)) {
+      throw new Error('Não é possível adicionar duas cartas com a mesma pergunta.')
+    }
     if (cards.length === 0) {
       setError('cards', { message: undefined })
     }
@@ -76,6 +79,9 @@ export function EditGameModal({ game, open, onClose, onSave, onRemove }: EditGam
   }
 
   function editCard(card: Card, old: Card) {
+    if (cards.some(c => c.question === card.question && card.question !== old.question)) {
+      throw new Error('Não é possível adicionar duas cartas com a mesma pergunta.')
+    }
     const index = cards.findIndex(c => c.question === old.question)
     cards[index] = card
     setValue('cards', [...cards])
@@ -114,9 +120,7 @@ export function EditGameModal({ game, open, onClose, onSave, onRemove }: EditGam
           <Input label="nome do jogo" error={errors.name?.message} {...register('name')} />
           <Input label="descrição" error={errors.description?.message} {...register('description')} />
         </div>
-        <InputLabel>
-          Cartas <span className="text-[8px]">(você poderá adicionar mais depois)</span>
-        </InputLabel>
+        <InputLabel>Cartas</InputLabel>
         <div className="flex items-end rounded-xl border-2 border-dashed border-slate-400 p-2">
           <div className="max-w flex grow flex-wrap gap-2">
             {cards.map((card, i) => (

@@ -61,6 +61,9 @@ export function NewGameModal({ open, onClose, onCreate }: NewGameModalProps) {
   }
 
   function addCard(card: Card) {
+    if (cards.some(c => c.question === card.question)) {
+      throw new Error('Não é possível adicionar duas cartas com a mesma pergunta.')
+    }
     if (cards.length === 0) {
       setError('cards', { message: undefined })
     }
@@ -68,14 +71,19 @@ export function NewGameModal({ open, onClose, onCreate }: NewGameModalProps) {
   }
 
   function editCard(card: Card, old: Card) {
+    if (cards.some(c => c.question === card.question && card.question !== old.question)) {
+      throw new Error('Não é possível adicionar duas cartas com a mesma pergunta.')
+    }
     const index = cards.findIndex(c => c.question === old.question)
     cards[index] = card
     setValue('cards', [...cards])
   }
 
   function removeCard() {
-    const newCards = cards.filter(c => c.question !== cardToEdit?.question)
-    setValue('cards', newCards)
+    if (cardToEdit) {
+      const newCards = cards.filter(c => c.question !== cardToEdit.question)
+      setValue('cards', newCards)
+    }
   }
 
   return (
