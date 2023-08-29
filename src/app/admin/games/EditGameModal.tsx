@@ -14,12 +14,10 @@ import { useConfirmationModal } from '@/hooks/useConfirmationModal'
 import { useLoading } from '@/hooks/useLoading'
 import { useSnackbar } from '@/hooks/useSnackbar'
 import { GameWithCards } from '@/server/prisma/games'
-import data from '@emoji-mart/data'
-import i18n from '@emoji-mart/data/i18n/pt.json'
-import EmojiPicker from '@emoji-mart/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { CardModal } from './CardModal'
+import { EmojiPicker } from './EmojiPicker'
 
 interface EditGameModalProps {
   game: GameWithCards
@@ -42,7 +40,6 @@ export function EditGameModal({ game, open, onClose, onSave, onRemove }: EditGam
     formState: { errors, isSubmitting }
   } = useForm<UpdateGame>({ resolver: zodResolver(updateGameSchema), defaultValues: game as UpdateGame })
   const [editCardModalOpen, setEditCardModalOpen] = useState(false)
-  const [emojiPickerOpen, setEmojiPickerOpen] = useState(false)
   const [cardToEdit, setCardToEdit] = useState<Card>()
   const { open: openSnackbar } = useSnackbar()
   const { open: openConfirmationModal } = useConfirmationModal()
@@ -119,33 +116,13 @@ export function EditGameModal({ game, open, onClose, onSave, onRemove }: EditGam
 
   function onSelectEmoji({ unified }: { unified: string }) {
     setValue('logo', unified)
-    setEmojiPickerOpen(false)
   }
 
   return (
     <Modal open={open} onClose={onClose} onSubmit={handleSubmit(onSubmit)}>
       <Modal.Content className="mb-2 min-w-[min(442px,calc(100vw-64px))] max-w-[442px] pb-0">
         <div className="mb-4 space-y-2">
-          <div className="relative flex flex-col items-center">
-            <div
-              className="flex aspect-square w-fit cursor-pointer items-center justify-center rounded-lg bg-gradient-to-br from-indigo-700 to-sky-400 p-2 text-7xl text-white dark:from-violet-800 dark:from-15% dark:to-rose-400"
-              onClick={() => setEmojiPickerOpen(true)}
-            >
-              {logo ? String.fromCodePoint(parseInt(logo, 16)) : '❔'}
-            </div>
-            {errors.logo && <p className="text-red-500">{errors.logo.message}</p>}
-            {emojiPickerOpen && (
-              <div className="absolute top-full z-10 mt-2 shadow-2xl shadow-black/50">
-                <EmojiPicker
-                  i18n={i18n}
-                  data={data}
-                  locale="pt"
-                  onEmojiSelect={onSelectEmoji}
-                  onClickOutside={() => setEmojiPickerOpen(false)}
-                />
-              </div>
-            )}
-          </div>
+          <EmojiPicker emoji={logo} onSelect={onSelectEmoji} error={errors.logo?.message} />
           <Input label="nome do jogo" error={errors.name?.message} {...register('name')} />
           <Input label="descrição" error={errors.description?.message} {...register('description')} />
         </div>
@@ -185,7 +162,11 @@ export function EditGameModal({ game, open, onClose, onSave, onRemove }: EditGam
           className="cursor-pointer hover:text-red-500 dark:hover:text-red-600"
           onClick={handleRemoveGame}
         />
-        <Button className="bg-slate-500" loading={isSubmitting} onClick={() => reset(game as UpdateGame)}>
+        <Button
+          className="bg-slate-500 dark:bg-slate-500"
+          loading={isSubmitting}
+          onClick={() => reset(game as UpdateGame)}
+        >
           Cancelar
         </Button>
         <Button type="submit" loading={isSubmitting}>
