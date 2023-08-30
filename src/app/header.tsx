@@ -5,6 +5,7 @@ import { MdMenu } from 'react-icons/md'
 import { IconButton } from '@/components/Buttons/IconButton'
 import { Cards } from '@/components/Images/Cards'
 import { ThemeSwitcher } from '@/components/Switchers/ThemeSwitcher'
+import { Text } from '@/components/Text'
 import Link from 'next/link'
 
 import { useMainSidebar } from './(Global)/MainSidebar'
@@ -23,9 +24,9 @@ export function Header() {
         />
         <Link href="/" className="flex h-full items-center gap-2 pt-[2px]">
           <Cards className="h-8 w-8" colorClassName="fill-primary-light dark:fill-primary-dark" />
-          <span className="pointer-events-none select-none bg-gradient-to-r from-primary-light to-sky-400 bg-clip-text font-serif text-2xl font-normal text-transparent dark:from-primary-dark dark:to-rose-400">
+          <Text className="font-serif text-2xl font-normal" variant="gradient">
             Cards Quiz
-          </span>
+          </Text>
         </Link>
       </div>
       <ThemeSwitcher />
