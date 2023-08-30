@@ -23,7 +23,7 @@ class GamesApi {
 
   async getById({ id }: { id: string }) {
     try {
-      const game = await this.prisma.findUnique({ where: { id } })
+      const game = await this.prisma.findUnique({ where: { id }, include: { cards: true } })
       return { game }
     } catch (error: any) {
       return { error }
