@@ -1,4 +1,3 @@
-import { Logo } from '@/components/Images/Logo'
 import { gamesApi } from '@/server/prisma/games'
 import Link from 'next/link'
 
@@ -9,7 +8,6 @@ export default async function Home() {
 
   return (
     <div className="flex select-none flex-col items-center justify-center px-2">
-      <Logo className="mb-4" />
       <h1 className="mb-4 w-full text-center font-mono text-4xl font-semibold">Jogar</h1>
       <div className="flex flex-wrap justify-center gap-5">
         {games?.map(game => (

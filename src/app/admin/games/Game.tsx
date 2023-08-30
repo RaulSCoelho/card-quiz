@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-import { Logo } from '@/components/Images/Logo'
 import { GameWithCards } from '@/server/prisma/games'
 import { format } from 'date-fns'
 
@@ -16,15 +15,15 @@ export function Game({ game: initialGame, onRemoveGame }: GameProps) {
   const [game, setGame] = useState(initialGame)
 
   return (
-    <div>
+    <div className="flex justify-center">
       <div
         onClick={() => setEditGameModalOpen(true)}
-        className="flex aspect-square cursor-pointer flex-col items-center justify-center rounded-md bg-slate-300 px-4 py-3 shadow-lg dark:bg-blue-950"
+        className="aspect-square cursor-pointer rounded-lg bg-gradient-to-br from-indigo-700 to-sky-400 p-5 text-white shadow-lg shadow-black/30 transition duration-300 ease-in-out hover:scale-105 active:scale-100  dark:from-violet-800 dark:from-15% dark:to-rose-400"
       >
-        <Logo className="mb-4 h-auto max-h-[50%] w-auto max-w-full" />
-        <p className="text-lg font-bold">{game.name}</p>
-        <p>{game.description}</p>
-        <p>{format(new Date(game.createdAt), 'dd/MM/yyyy HH:mm')}</p>
+        <p className="mb-2 text-center text-9xl">{String.fromCodePoint(parseInt(game.logo, 16))}</p>
+        <p className="mb-2 text-center font-serif text-2xl font-semibold">{game.name}</p>
+        <p className="mb-2 line-clamp-6 break-all text-center text-lg">{game.description}</p>
+        <p className="text-center">{format(new Date(game.createdAt), 'dd/MM/yyyy HH:mm')}</p>
       </div>
       <EditGameModal
         game={game}

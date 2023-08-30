@@ -22,8 +22,10 @@ export function Header() {
           className="rounded bg-primary-light text-light dark:bg-primary-dark dark:text-slate-400"
         />
         <Link href="/" className="flex h-full items-center gap-2 pt-[2px]">
-          <Cards className="h-8 w-8" colorClassName="dark:fill-primary-light" />
-          <span className="font-serif text-2xl font-normal">Cards Quiz</span>
+          <Cards className="h-8 w-8" colorClassName="fill-primary-light dark:fill-primary-dark" />
+          <span className="pointer-events-none select-none bg-gradient-to-r from-primary-light to-sky-400 bg-clip-text font-serif text-2xl font-normal text-transparent dark:from-primary-dark dark:to-rose-400">
+            Cards Quiz
+          </span>
         </Link>
       </div>
       <ThemeSwitcher />
