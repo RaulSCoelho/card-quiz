@@ -13,6 +13,10 @@ export interface AlertProps {
   onClose?(): void
 }
 
+const wrapper = tv({
+  base: 'rounded-md'
+})
+
 const alert = tv({
   base: 'flex items-center gap-3 rounded-md p-4',
   variants: {
@@ -46,7 +50,7 @@ export function Alert({ message, type, className, onClose }: AlertProps) {
   return (
     <Collapse
       open={open}
-      wrapperClassName={className}
+      wrapperClassName={wrapper({ className })}
       className={alert({ type })}
       onTransitionEnd={handleTransitionEnd}
     >
