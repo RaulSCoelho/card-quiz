@@ -40,7 +40,7 @@ export function LoginForm() {
       <div className="w-full max-w-md space-y-4">
         <h2 className="text-center text-3xl font-extrabold">Entrar na sua conta</h2>
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-          <Alert message={error} onClose={() => setError('')} className="mx-1 mb-3 shadow-md" type="error" />
+          <Alert message={error} onClose={() => setError('')} className="shadow-md" type="error" />
           <div className="-space-y-px rounded-md shadow-sm">
             <Input
               className="rounded-b-none rounded-t-md border border-gray-300"

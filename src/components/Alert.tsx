@@ -44,7 +44,12 @@ export function Alert({ message, type, className, onClose }: AlertProps) {
   }
 
   return (
-    <Collapse open={open} className={alert({ type, className })} onTransitionEnd={handleTransitionEnd}>
+    <Collapse
+      open={open}
+      wrapperClassName={className}
+      className={alert({ type })}
+      onTransitionEnd={handleTransitionEnd}
+    >
       <div>{iconMap[type]}</div>
       <p className="grow break-all">{message}</p>
       {onClose && (

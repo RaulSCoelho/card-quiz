@@ -1,16 +1,22 @@
 import { HTMLAttributes, ReactNode, useEffect, useRef, useState } from 'react'
 
 import { getElementHeight } from '@/utils/element'
+import { tv } from 'tailwind-variants'
 
 interface CollapseProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   children: ReactNode
   open: boolean
   onChange?(open: boolean): void
+  wrapperClassName?: string
 }
+
+const collapse = tv({
+  base: 'overflow-hidden transition-[height] duration-300 ease-in-out'
+})
 
 let timeout: any
 
-export function Collapse({ children, open, onChange, className, ...rest }: CollapseProps) {
+export function Collapse({ children, open, onChange, wrapperClassName, className, ...rest }: CollapseProps) {
   const [height, setHeight] = useState<number | undefined>(0)
   const childrenRef = useRef<HTMLDivElement>(null)
 
@@ -29,7 +35,7 @@ export function Collapse({ children, open, onChange, className, ...rest }: Colla
   }, [open, onChange])
 
   return (
-    <div className="overflow-hidden transition-[height] duration-300 ease-in-out" style={{ height }} {...rest}>
+    <div className={collapse({ className: wrapperClassName })} style={{ height }} {...rest}>
       <div ref={childrenRef} className={className}>
         {children}
       </div>
