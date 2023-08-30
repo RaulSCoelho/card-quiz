@@ -1,9 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import ReactConfetti from 'react-confetti'
+import ReactConfetti, { Props as ReactConfettiProps } from 'react-confetti'
 
-export function Confetti() {
+export function Confetti({
+  numberOfPieces = 800,
+  tweenDuration = 15000,
+  gravity = 0.15,
+  ...rest
+}: Omit<ReactConfettiProps, 'width' | 'height' | 'recycle'>) {
   const [confettiWidth, setConfettiWidth] = useState(0)
   const [confettiHeight, setConfettiHeight] = useState(0)
 
@@ -24,9 +29,10 @@ export function Confetti() {
       width={confettiWidth}
       height={confettiHeight}
       recycle={false}
-      numberOfPieces={800}
-      tweenDuration={15000}
-      gravity={0.15}
+      numberOfPieces={numberOfPieces}
+      tweenDuration={tweenDuration}
+      gravity={gravity}
+      {...rest}
     />
   )
 }

@@ -5,6 +5,7 @@ import { ThemesProvider } from '@/hooks/useTheme'
 import { UserProvider } from '@/hooks/useUser'
 import { Inter } from 'next/font/google'
 
+import { ConfettiControl } from './(Global)/ConfettiControl'
 import { ConfirmationModalControl } from './(Global)/ConfirmationModalControl'
 import { LoadingControl } from './(Global)/LoadingControl'
 import { MainSidebar } from './(Global)/MainSidebar'
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </div>
             <ConfirmationModalControl />
             <SnackbarControl />
+            <ConfettiControl />
             <LoadingControl />
           </UserProvider>
         </ThemesProvider>
