@@ -6,7 +6,7 @@ interface SidebarBodyProps {
 
 export function SidebarBody({ children }: SidebarBodyProps) {
   return (
-    <div className="flex grow flex-col gap-3 overflow-y-auto p-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#6b6b6b4b]">
+    <div className="flex grow flex-col gap-3 overflow-y-auto p-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#6b6b6b4b] dark:text-violet-400">
       {children}
     </div>
   )
