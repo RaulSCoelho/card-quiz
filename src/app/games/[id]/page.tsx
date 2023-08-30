@@ -11,7 +11,7 @@ export default async function Page({ params: { id } }: { params: { id: string } 
   const { game } = await gamesApi.getById({ id })
 
   return (
-    <div className="flex justify-center overflow-hidden">
+    <div className="flex h-full justify-center overflow-hidden">
       <CardsSlider cards={game?.cards} />
     </div>
   )

@@ -23,7 +23,7 @@ export function CardsSlider({ cards }: CardsSliderProps) {
   }
 
   return (
-    <Slider className="aspect-[2.5/3.5] w-3/5 sm:w-96" onSlideChange={handleSlideChange}>
+    <Slider className="h-4/5 w-5/6 sm:aspect-[2.5/3.5] sm:h-fit sm:w-96" onSlideChange={handleSlideChange}>
       {visibleCards.map(({ id, question, answer }) => (
         <Slider.Item className="rounded-lg" key={id}>
           <Card className="flex h-full flex-col justify-around p-5">
