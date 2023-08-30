@@ -14,7 +14,8 @@ export const updateGameSchema = z
           id: z.string().nonempty('"id" é um campo obrigatório').optional(),
           gameId: z.string().nonempty('"gameId" é um campo obrigatório').optional(),
           question: z.string().nonempty('Por favor, insira uma pergunta.'),
-          answer: z.string().nonempty('Por favor, insira uma resposta.'),
+          answer: z.enum(['TRUE', 'FALSE'], { required_error: 'Por favor, insira uma resposta.' }),
+          explanation: z.string().nonempty('Por favor, insira uma explicação.'),
           points: z.number().int().optional(),
           createdAt: z.union([z.date(), z.string()]).optional()
         })
@@ -42,7 +43,8 @@ export const createGameSchema = z.object({
     .array(
       z.object({
         question: z.string().nonempty('Por favor, insira uma pergunta.'),
-        answer: z.string().nonempty('Por favor, insira uma resposta.')
+        answer: z.enum(['TRUE', 'FALSE'], { required_error: 'Por favor, insira uma resposta.' }),
+        explanation: z.string().nonempty('Por favor, insira uma explicação.')
       })
     )
     .min(1, 'Adicione pelo menos uma carta')

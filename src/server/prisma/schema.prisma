@@ -48,13 +48,14 @@ model MatchPlayer {
 }
 
 model Card {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  Game      Game?    @relation(fields: [gameId], references: [id], onDelete: Cascade)
-  gameId    String?  @db.ObjectId
-  question  String
-  answer    String
-  points    Int      @default(1)
-  createdAt DateTime @default(now())
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  Game        Game?    @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  gameId      String?  @db.ObjectId
+  question    String
+  answer      Answer
+  explanation String
+  points      Int      @default(1)
+  createdAt   DateTime @default(now())
 
   @@unique([gameId, question])
 }
@@ -62,4 +63,9 @@ model Card {
 enum Role {
   ADMIN
   USER
+}
+
+enum Answer {
+  TRUE
+  FALSE
 }

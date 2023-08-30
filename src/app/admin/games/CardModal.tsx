@@ -5,6 +5,7 @@ import { LuCheck, LuPlus } from 'react-icons/lu'
 import { CreateGame } from '@/@types/games'
 import { Alert } from '@/components/Alert'
 import { Button } from '@/components/Buttons'
+import { Checkbox } from '@/components/Input/Checkbox'
 import { TextArea } from '@/components/Input/TextArea'
 import { ModalBase } from '@/components/Modal/ModalBase'
 import { useConfirmationModal } from '@/hooks/useConfirmationModal'
@@ -21,7 +22,7 @@ interface CardModalProps {
 
 export function CardModal({ open, onClose, onConfirmCard, onRemoveCard, defaultValues }: CardModalProps) {
   const { open: openConfirmationModal } = useConfirmationModal()
-  const [newCard, setNewCard] = useState<Card>(defaultValues || { question: '', answer: '' })
+  const [newCard, setNewCard] = useState<Card>(defaultValues || { question: '', answer: 'FALSE', explanation: '' })
   const [error, setError] = useState('')
 
   const cardChange = (field: keyof Card) => (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -29,7 +30,7 @@ export function CardModal({ open, onClose, onConfirmCard, onRemoveCard, defaultV
   }
 
   function reset() {
-    setNewCard({ question: '', answer: '' })
+    setNewCard({ question: '', answer: 'FALSE', explanation: '' })
     onClose()
     setError('')
   }
@@ -56,12 +57,16 @@ export function CardModal({ open, onClose, onConfirmCard, onRemoveCard, defaultV
     })
   }
 
+  function toggleTrueOrFalse(e: ChangeEvent<HTMLInputElement>) {
+    setNewCard(prev => ({ ...prev, answer: e.target.checked ? 'TRUE' : 'FALSE' }))
+  }
+
   return (
     <ModalBase open={open} onClose={onClose} fullScreen={false}>
       <div className="p-4 pb-0">
         <Alert message={error} type="error" onClose={() => setError('')} />
       </div>
-      <div className="min-w-[min(500px,calc(100vw-64px))] space-y-2 p-4">
+      <div className="min-w-[min(500px,calc(100vw-64px))] space-y-4 p-4">
         <TextArea
           label="pergunta"
           value={newCard.question}
@@ -69,12 +74,13 @@ export function CardModal({ open, onClose, onConfirmCard, onRemoveCard, defaultV
           rows={5}
           onChange={cardChange('question')}
         />
+        <Checkbox label="verdadeiro?" checked={newCard.answer === 'TRUE'} onChange={toggleTrueOrFalse} />
         <TextArea
-          label="resposta"
-          value={newCard.answer}
+          label="explicação"
+          value={newCard.explanation}
           className="resize-none"
           rows={5}
-          onChange={cardChange('answer')}
+          onChange={cardChange('explanation')}
         />
         <div className="flex justify-end gap-2">
           {defaultValues && (
