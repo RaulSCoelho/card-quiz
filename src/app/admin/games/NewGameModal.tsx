@@ -125,7 +125,7 @@ export function NewGameModal({ open, onClose, onCreate }: NewGameModalProps) {
             )}
           </div>
           <div>
-            <IconButton icon={LuPlus} rippleColor="#818cf8" onClick={() => setNewCardModalOpen(true)} />
+            <IconButton icon={LuPlus} onClick={() => setNewCardModalOpen(true)} />
             <CardModal open={newCardModalOpen} onClose={closeNewCardModal} onConfirmCard={addCard} />
           </div>
         </div>

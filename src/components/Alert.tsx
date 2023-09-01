@@ -50,12 +50,12 @@ export function Alert({ message, type, className, onClose }: AlertProps) {
   return (
     <Collapse
       open={open}
-      wrapperClassName={wrapper({ className })}
+      wrapperClassName={wrapper({ className: open ? className : undefined })}
       className={alert({ type })}
       onTransitionEnd={handleTransitionEnd}
     >
       <div>{iconMap[type]}</div>
-      <p className="grow break-all">{message}</p>
+      <p className="grow hyphens-auto">{message}</p>
       {onClose && (
         <div>
           <FaTimes className="cursor-pointer text-inherit" onClick={() => setOpen(false)} />

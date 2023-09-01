@@ -149,7 +149,7 @@ export function EditGameModal({ game, open, onClose, onSave, onRemove }: EditGam
             )}
           </div>
           <div>
-            <IconButton icon={LuPlus} rippleColor="#818cf8" onClick={() => setEditCardModalOpen(true)} />
+            <IconButton icon={LuPlus} onClick={() => setEditCardModalOpen(true)} />
             <CardModal open={editCardModalOpen} onClose={closeEditCardModal} onConfirmCard={addCard} />
           </div>
         </div>

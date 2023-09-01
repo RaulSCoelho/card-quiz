@@ -10,6 +10,7 @@ export interface ModalBaseProps {
   onClose(): void
   size?: 'sm' | 'md' | 'lg' | 'fixed-sm' | 'fixed-md' | 'fixed-lg'
   fullScreen?: boolean
+  className?: string
 }
 
 const modal = tv({
@@ -38,7 +39,7 @@ const modal = tv({
   }
 })
 
-export function ModalBase({ children, open, onClose, size = 'sm', fullScreen = true }: ModalBaseProps) {
+export function ModalBase({ children, open, onClose, size = 'sm', fullScreen = true, className }: ModalBaseProps) {
   const [visible, setVisible] = useState(false)
   const [opacity, setOpacity] = useState<0 | 1>(0)
   const { matches: isSmallScreen } = useMediaQuery({ size: 'sm' })
@@ -62,7 +63,7 @@ export function ModalBase({ children, open, onClose, size = 'sm', fullScreen = t
       onTransitionEnd={handleTransitionEnd}
       onClick={handleClickOutside(modalContentRef, onClose)}
     >
-      <div ref={modalContentRef} className={content()}>
+      <div ref={modalContentRef} className={content({ className })}>
         {children}
       </div>
     </div>

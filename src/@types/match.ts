@@ -1,15 +1,18 @@
+import { v4 as uuid } from 'uuid'
 import { z } from 'zod'
 
-export const createMatchSchema = z.object({
-  gameId: z.string().nonempty('Relacione esta partida à um jogo'),
+export const matchSchema = z.object({
+  id: z.string().nonempty('"id" é um campo obrigatório'),
   players: z
     .array(
       z.object({
-        username: z.string().nonempty('Por favor, insira o nome do jogador')
+        id: z.string().default(uuid()),
+        username: z.string().nonempty('Por favor, insira o nome do jogador'),
+        score: z.number().int().default(0)
       })
     )
     .min(1, 'Adicione pelo menos um jogador')
     .default([])
 })
 
-export type CreateMatch = z.infer<typeof createMatchSchema>
+export type Match = z.infer<typeof matchSchema>

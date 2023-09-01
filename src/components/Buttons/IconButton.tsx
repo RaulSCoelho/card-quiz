@@ -13,12 +13,20 @@ export interface IconButtonProps extends Omit<ButtonBaseProps, 'children'> {
 }
 
 const iconButton = tv({
-  base: 'relative flex aspect-square p-1.5 items-center justify-center rounded-[50%] bg-gray-500/10'
+  base: 'relative flex aspect-square items-center justify-center rounded-[50%] bg-gray-500/10 p-1.5'
 })
 
-export function IconButton({ icon: Icon, size, color, className, badge, ...rest }: IconButtonProps) {
+export function IconButton({
+  icon: Icon,
+  size,
+  color,
+  className,
+  badge,
+  rippleColor = '#818cf8',
+  ...rest
+}: IconButtonProps) {
   return (
-    <ButtonBase className={iconButton({ className })} {...rest}>
+    <ButtonBase className={iconButton({ className })} rippleColor={rippleColor} {...rest}>
       <Badge size="xs" {...badge}>
         <Icon size={size || 20} color={color || 'inherit'} />
       </Badge>
