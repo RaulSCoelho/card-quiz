@@ -14,7 +14,7 @@ export function Game({ game }: GameProps) {
   const { started } = useMatch()
 
   return (
-    <div className="flex h-full justify-center overflow-hidden">
+    <div className="flex h-full w-full justify-center overflow-hidden">
       {started ? <CardsSlider cards={game?.cards} /> : <StartGameModal open={!started} onClose={() => {}} />}
     </div>
   )
