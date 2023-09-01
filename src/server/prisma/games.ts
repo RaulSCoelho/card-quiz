@@ -6,15 +6,9 @@ import { prisma } from '.'
 export type GameWithCards = Prisma.GameGetPayload<{ include: { cards: true } }>
 
 class GamesApi {
-  prisma: Prisma.GameDelegate
-
-  constructor() {
-    this.prisma = prisma.game
-  }
-
   async get() {
     try {
-      const games = await this.prisma.findMany({ include: { cards: true } })
+      const games = await prisma.game.findMany({ include: { cards: true } })
       return { games }
     } catch (error: any) {
       return { error }
@@ -23,7 +17,7 @@ class GamesApi {
 
   async getById({ id }: { id: string }) {
     try {
-      const game = await this.prisma.findUnique({ where: { id }, include: { cards: true } })
+      const game = await prisma.game.findUnique({ where: { id }, include: { cards: true } })
       return { game }
     } catch (error: any) {
       return { error }
@@ -32,7 +26,7 @@ class GamesApi {
 
   async post({ cards, ...newGame }: CreateGame) {
     try {
-      const game = await this.prisma.create({
+      const game = await prisma.game.create({
         data: { ...newGame, cards: { createMany: { data: cards } } },
         include: { cards: true }
       })
@@ -46,7 +40,7 @@ class GamesApi {
     try {
       const cardsCreate = cards.filter(c => !c.id)
       const cardsUpdate = cards.filter(c => c.id)
-      const game = await this.prisma.update({
+      const game = await prisma.game.update({
         where: { id },
         data: {
           ...editedGame,
@@ -67,7 +61,7 @@ class GamesApi {
 
   async delete({ id }: { id: string }) {
     try {
-      await this.prisma.delete({ where: { id } })
+      await prisma.game.delete({ where: { id } })
       return {}
     } catch (error: any) {
       return { error }

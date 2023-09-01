@@ -5,16 +5,10 @@ import { hashWord, isHashValid } from '../../lib/hash'
 import { generateToken } from '../../lib/jwt'
 
 class AuthApi {
-  prisma: Prisma.UserDelegate
-
-  constructor() {
-    this.prisma = prisma.user
-  }
-
   async register({ payload }: { payload: Prisma.UserCreateInput }) {
     try {
       const { email, password } = payload
-      const existingUser = await this.prisma.findFirst({ where: { email } })
+      const existingUser = await prisma.user.findFirst({ where: { email } })
       if (existingUser) {
         throw new Error('Usuário com este email já existe!')
       }
@@ -22,7 +16,7 @@ class AuthApi {
       const hashedPassword = await hashWord(password)
       payload.password = hashedPassword
 
-      const user = await this.prisma.create({ data: payload })
+      const user = await prisma.user.create({ data: payload })
 
       return { user }
     } catch (error: any) {
@@ -35,7 +29,7 @@ class AuthApi {
 
   async login({ login, password }: { login: string; password: string }) {
     try {
-      const user = await this.prisma.findFirst({ where: { OR: [{ username: login }, { email: login }] } })
+      const user = await prisma.user.findFirst({ where: { OR: [{ username: login }, { email: login }] } })
 
       if (!user) {
         throw new Error('Nome de usuário ou senha inválidos')

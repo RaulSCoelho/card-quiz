@@ -1,17 +1,9 @@
-import { Prisma } from '@prisma/client'
-
 import { prisma } from '.'
 
 class UsersApi {
-  prisma: Prisma.UserDelegate
-
-  constructor() {
-    this.prisma = prisma.user
-  }
-
   async get() {
     try {
-      const users = await this.prisma.findMany()
+      const users = await prisma.user.findMany()
       return { users }
     } catch (error: any) {
       return { error }
@@ -20,7 +12,7 @@ class UsersApi {
 
   async getById({ id }: { id: string }) {
     try {
-      const user = await this.prisma.findUnique({ where: { id } })
+      const user = await prisma.user.findUnique({ where: { id } })
       return { user }
     } catch (error: any) {
       return { error }
@@ -29,7 +21,7 @@ class UsersApi {
 
   async delete({ id }: { id: string }) {
     try {
-      await this.prisma.delete({ where: { id } })
+      await prisma.user.delete({ where: { id } })
       return {}
     } catch (error: any) {
       return { error }

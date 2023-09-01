@@ -60,6 +60,19 @@ model Card {
   @@unique([gameId, question])
 }
 
+model Glossary {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  terms Term[]
+}
+
+model Term {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  Glossary   Glossary? @relation(fields: [glossaryId], references: [id])
+  glossaryId String?   @db.ObjectId
+  term       String
+  definition String
+}
+
 enum Role {
   ADMIN
   USER
