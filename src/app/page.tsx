@@ -1,11 +1,11 @@
-import { PlayButton } from '@/components/Game/PlayButton'
-
-export const dynamic = 'force-dynamic'
+import { Text } from '@/components/Text'
 
 export default function Home() {
   return (
-    <div className="flex select-none flex-col items-center justify-center px-2">
-      <PlayButton />
+    <div>
+      <Text className="text-5xl" variant="gradient">
+        Nicole passa o texto pra essa parte fazofavor
+      </Text>
     </div>
   )
 }

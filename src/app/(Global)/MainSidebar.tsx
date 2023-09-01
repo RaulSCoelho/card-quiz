@@ -24,7 +24,7 @@ export const useMainSidebar = create<SidebarState>(set => ({
 
 const adminPaths = [
   { title: 'Users', path: '/users', icon: GoPeople },
-  { title: 'Games', path: '/games', icon: IoGameControllerOutline }
+  { title: 'Jogos', path: '/games', icon: IoGameControllerOutline }
 ]
 
 export function MainSidebar() {
@@ -41,6 +41,7 @@ export function MainSidebar() {
     <Sidebar open={isOpen} onClose={close} title="Cards Quiz" logo="/logo.png">
       <Sidebar.Body>
         <Sidebar.Route title="Home" path="/" icon={IoHomeOutline} exact />
+        <Sidebar.Route title="Jogos" path="/games" icon={IoGameControllerOutline} />
         {isAdmin && <Sidebar.Accordion title="Admin" path="/admin" icon={AdminIcon} paths={adminPaths} />}
       </Sidebar.Body>
       <Sidebar.Footer className="p-2">

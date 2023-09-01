@@ -11,7 +11,7 @@ export default async function Page() {
   const { users } = await usersApi.get()
 
   return (
-    <div className="flex justify-center px-2">
+    <div className="flex justify-center">
       <Users users={users || []} />
     </div>
   )
