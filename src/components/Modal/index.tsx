@@ -13,6 +13,7 @@ import { ModalContent } from './ModalContent'
 interface ModalProps extends ModalBaseProps {
   title?: string
   onSubmit?(): void
+  noCloseButton?: boolean
 }
 
 const modal = tv({
@@ -24,6 +25,9 @@ const modal = tv({
     title: {
       true: { header: 'p-4' },
       false: { header: 'p-2' }
+    },
+    noCloseButton: {
+      true: { content: 'pt-5' }
     }
   }
 })
@@ -40,19 +44,21 @@ const formContent = React.forwardRef<HTMLFormElement, ComponentProps<'form'>>(fu
   )
 })
 
-export function Modal({ children, title, onClose, onSubmit, ...props }: ModalProps) {
-  const { header, content } = modal({ title: !!title })
+export function Modal({ children, title, onClose, onSubmit, noCloseButton = false, ...props }: ModalProps) {
+  const { header, content } = modal({ title: !!title, noCloseButton })
   const Content = onSubmit ? formContent : divContent
 
   return (
     <ModalBase onClose={onClose} {...props}>
       <Content onSubmit={onSubmit} className={content()}>
-        <div className={header()}>
-          <div className="grow">{title}</div>
-          <div>
-            <IconButton icon={IoClose} onClick={onClose} size={24} className="bg-transparent p-0 shadow-none" />
+        {!noCloseButton && (
+          <div className={header()}>
+            <div className="grow">{title}</div>
+            <div>
+              <IconButton icon={IoClose} onClick={onClose} size={24} className="bg-transparent p-0 shadow-none" />
+            </div>
           </div>
-        </div>
+        )}
         {children}
       </Content>
     </ModalBase>

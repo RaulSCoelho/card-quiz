@@ -1,22 +1,21 @@
 'use client'
 
+import { StartGameModal } from '@/components/Game/StartGameModal'
+import { useMatch } from '@/hooks/useMatch'
 import { GameWithCards } from '@/server/prisma/games'
 
-import { Slider } from './Slider'
-import { SliderItem } from './SliderItem'
+import { CardsSlider } from './CardsSlider'
 
-interface CardsSliderProps {
-  cards?: GameWithCards['cards']
+interface GameProps {
+  game?: GameWithCards
 }
 
-export function CardsSlider({ cards }: CardsSliderProps) {
+export function Game({ game }: GameProps) {
+  const { started } = useMatch()
+
   return (
-    <Slider className="h-4/5 w-5/6 sm:aspect-[2.5/3.5] sm:h-fit sm:w-96">
-      {cards?.map(card => (
-        <Slider.Item className="rounded-lg" key={card.id}>
-          <SliderItem card={card} />
-        </Slider.Item>
-      ))}
-    </Slider>
+    <div className="flex h-full justify-center overflow-hidden">
+      {started ? <CardsSlider cards={game?.cards} /> : <StartGameModal open={!started} onClose={() => {}} />}
+    </div>
   )
 }

@@ -14,15 +14,21 @@ import { Modal } from '../Modal'
 interface StartGameModalProps {
   open: boolean
   onClose(): void
-  onStart(): void
 }
 
-export function StartGameModal({ open, onClose, onStart }: StartGameModalProps) {
-  const { players, addPlayer, removePlayer, error, clearError } = useMatch()
+export function StartGameModal({ open, onClose }: StartGameModalProps) {
+  const { players, addPlayer, removePlayer, start, error, clearError } = useMatch()
   const [newPlayer, setNewPlayer] = useState('')
 
+  function handleStart() {
+    start()
+    if (!error) {
+      onClose()
+    }
+  }
+
   return (
-    <Modal open={open} onClose={onClose} className="rounded-2xl sm:w-96" fullScreen={false}>
+    <Modal open={open} onClose={onClose} className="rounded-2xl sm:w-96" fullScreen={false} noCloseButton>
       <Modal.Content className="max-h-96">
         <Alert message={error || ''} type="error" onClose={clearError} className="mb-4" />
         <div className="mb-4 flex items-center gap-2">
@@ -52,7 +58,7 @@ export function StartGameModal({ open, onClose, onStart }: StartGameModalProps) 
         </div>
       </Modal.Content>
       <Modal.Actions>
-        <Button className="rounded-2xl" onClick={onStart}>
+        <Button className="rounded-2xl" onClick={handleStart}>
           Start
         </Button>
       </Modal.Actions>

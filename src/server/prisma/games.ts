@@ -15,10 +15,10 @@ class GamesApi {
     }
   }
 
-  async getById({ id }: { id: string }) {
+  async getById({ id }: { id: string }): Promise<{ game?: GameWithCards; error?: any }> {
     try {
       const game = await prisma.game.findUnique({ where: { id }, include: { cards: true } })
-      return { game }
+      return { game: game as GameWithCards }
     } catch (error: any) {
       return { error }
     }

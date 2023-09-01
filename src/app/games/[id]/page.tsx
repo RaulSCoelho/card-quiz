@@ -1,6 +1,6 @@
 import { gamesApi } from '@/server/prisma/games'
 
-import { CardsSlider } from '.'
+import { Game } from '.'
 
 export const dynamic = 'force-dynamic'
 export const metadata = {
@@ -12,7 +12,7 @@ export default async function Page({ params: { id } }: { params: { id: string } 
 
   return (
     <div className="flex h-full justify-center overflow-hidden">
-      <CardsSlider cards={game?.cards} />
+      <Game game={game} />
     </div>
   )
 }
