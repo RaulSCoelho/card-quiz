@@ -14,12 +14,14 @@ export function findMatches(source: string, target: string | string[]) {
 
   // Find all matches
   for (const target of targets) {
-    const regex = new RegExp(escapeRegex(target), 'gi')
-    let match: RegExpExecArray | null
-    while ((match = regex.exec(source)) !== null) {
-      const from = match.index
-      const to = from + match[0].length
-      matches.push({ from, to, text: source.slice(from, to), match: true })
+    if (target && target !== ' ') {
+      const regex = new RegExp(escapeRegex(target), 'gi')
+      let match: RegExpExecArray | null
+      while ((match = regex.exec(source)) !== null) {
+        const from = match.index
+        const to = from + match[0].length
+        matches.push({ from, to, text: source.slice(from, to), match: true })
+      }
     }
   }
 
