@@ -18,7 +18,7 @@ export function Game({ game }: GameProps) {
   const sortedPlayers = players.sort((a, b) => b.score - a.score)
 
   return (
-    <div>
+    <>
       {finished ? (
         <div className="space-y-4">
           <h1 className="text-center text-3xl font-bold">Placar</h1>
@@ -32,15 +32,13 @@ export function Game({ game }: GameProps) {
           <Button onClick={end}>Começar nova partida</Button>
         </div>
       ) : started ? (
-        <>
+        <div className="flex h-full w-full flex-col justify-around overflow-hidden">
           <p className="text-center text-3xl font-bold">Vez de {playersTurnName}</p>
-          <div className="flex h-full w-full justify-center overflow-hidden">
-            <CardsSlider cards={game?.cards} />
-          </div>
-        </>
+          <CardsSlider cards={cards} />
+        </div>
       ) : (
         <StartGameModal game={game} open={!started} onClose={() => {}} />
       )}
-    </div>
+    </>
   )
 }
