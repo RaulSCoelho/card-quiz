@@ -21,7 +21,7 @@ export const useGlossary = create<GlossaryState>(() => ({
   updateGlossary
 }))
 
-export async function fetchGlossary() {
+async function fetchGlossary() {
   useGlossary.setState({ loading: true })
   try {
     const { data: glossary } = await api.get<GlossaryWithTerms[]>('api/glossary')
@@ -34,7 +34,7 @@ export async function fetchGlossary() {
   }
 }
 
-export async function updateGlossary(glossary: UpdateGlossary) {
+async function updateGlossary(glossary: UpdateGlossary) {
   useGlossary.setState({ loading: true })
   try {
     const { data: updatedGlossary } = await api.put<GlossaryWithTerms>(`api/glossary/${glossary.id}`, glossary)
