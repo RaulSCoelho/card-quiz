@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { IoCheckmarkSharp, IoClose } from 'react-icons/io5'
 
 import { useConfetti } from '@/app/(Global)/ConfettiControl'
@@ -11,20 +10,15 @@ interface SliderItemProps {
 }
 
 export function SliderItem({ card }: SliderItemProps) {
-  const [emoji, setEmoji] = useState('🤔')
-  const [showExplanation, setShowExplanation] = useState(false)
   const { open: confetti } = useConfetti()
   const { answer } = useMatch()
+  const emoji = card.answer ? (card.answeredCorrectly ? '😁' : '😭') : '🤔'
 
   const checkAnswer = (userAnswer: MatchCard['answer']) => () => {
     answer(card, userAnswer)
     if (userAnswer === card.answer) {
-      setEmoji('😁')
       confetti()
-    } else {
-      setEmoji('😭')
     }
-    setShowExplanation(true)
   }
 
   return (
@@ -33,7 +27,7 @@ export function SliderItem({ card }: SliderItemProps) {
       <p className="mb-2 text-center font-serif font-semibold">
         <GlossaryText>{card.question}</GlossaryText>
       </p>
-      {showExplanation && (
+      {card.answer && (
         <p className="mb-1 overflow-auto break-all text-center font-serif font-semibold scrollbar-thin scrollbar-track-white/75 scrollbar-thumb-[#8888884b] dark:scrollbar-track-zinc-700">
           Explicação:
           <br />

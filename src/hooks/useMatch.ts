@@ -7,6 +7,7 @@ import { create } from 'zustand'
 
 export type MatchCard = GameWithCards['cards'][number] & {
   answered?: boolean
+  answeredCorrectly?: boolean
 }
 
 interface MatchState extends Match {
@@ -50,6 +51,7 @@ export const useMatch = create<MatchState>(set => ({
       }
 
       match.cards[cardIndex].answered = true
+      match.cards[cardIndex].answeredCorrectly = card.answer === answer
 
       if (card.answer === answer) {
         match.players[playerIndex].score++

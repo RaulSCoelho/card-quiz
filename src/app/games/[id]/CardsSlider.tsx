@@ -1,12 +1,12 @@
 'use client'
 
-import { GameWithCards } from '@/server/prisma/games'
+import { MatchCard } from '@/hooks/useMatch'
 
 import { Slider } from './Slider'
 import { SliderItem } from './SliderItem'
 
 interface CardsSliderProps {
-  cards?: GameWithCards['cards']
+  cards?: MatchCard[]
 }
 
 export function CardsSlider({ cards }: CardsSliderProps) {
