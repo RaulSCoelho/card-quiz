@@ -38,7 +38,9 @@ const Wrapper = ({ children }: { children: string }) => {
             <IconButton icon={IoClose} onClick={handleClose} size={24} className="bg-transparent p-0 shadow-none" />
           </div>
         </div>
-        <p className="hyphens-auto break-words p-5 pt-0">{definition}</p>
+        <div className="overflow-auto p-5 pt-0 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#6b6b6b4b]">
+          <p className="hyphens-auto break-words">{definition}</p>
+        </div>
       </ModalBase>
     </>
   )
