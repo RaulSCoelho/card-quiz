@@ -15,9 +15,9 @@ export function findMatches(source: string, target: string | string[]) {
   // Find all matches
   for (const target of targets) {
     if (target && target !== ' ') {
-      const regex = new RegExp(escapeRegex(target), 'gi')
+      const regex = new RegExp(escapeRegex(target.toLowerCase()), 'gi')
       let match: RegExpExecArray | null
-      while ((match = regex.exec(source)) !== null) {
+      while ((match = regex.exec(source.toLowerCase())) !== null) {
         const from = match.index
         const to = from + match[0].length
         matches.push({ from, to, text: source.slice(from, to), match: true })
