@@ -29,16 +29,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="bg-light text-dark dark:bg-dark dark:text-light" suppressHydrationWarning>
         <ThemesProvider>
           <UserProvider>
-            <GlossaryInit>
-              <div
-                id="app"
-                className="fixed inset-0 overflow-auto scrollbar scrollbar-track-white/75 scrollbar-thumb-[#8888884b] dark:scrollbar-track-zinc-700"
-              >
-                <Header />
-                <MainSidebar />
-                <div className="h-[calc(100%-56px)] px-5 py-5 sm:px-[10%] lg:px-[15%] xl:px-[20%]">{children}</div>
-              </div>
-            </GlossaryInit>
+            <div
+              id="app"
+              className="fixed inset-0 overflow-auto scrollbar scrollbar-track-white/75 scrollbar-thumb-[#8888884b] dark:scrollbar-track-zinc-700"
+            >
+              <Header />
+              <MainSidebar />
+              <div className="h-[calc(100%-56px)] px-5 py-5 sm:px-[10%] lg:px-[15%] xl:px-[20%]">{children}</div>
+            </div>
+            <GlossaryInit />
             <ConfirmationModalControl />
             <SnackbarControl />
             <ConfettiControl />
