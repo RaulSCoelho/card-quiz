@@ -34,20 +34,22 @@ export function SliderItem({ card }: SliderItemProps) {
           <GlossaryText>{card.explanation}</GlossaryText>
         </p>
       )}
-      <div className="flex justify-around text-white">
-        <div
-          className="flex aspect-square cursor-pointer justify-center rounded-lg bg-red-500 p-5 active:scale-95"
-          onClick={checkAnswer('FALSE')}
-        >
-          <IoClose size={40} />
+      {!card.answered && (
+        <div className="flex justify-around text-white">
+          <div
+            className="flex aspect-square cursor-pointer justify-center rounded-lg bg-red-500 p-5 active:scale-95"
+            onClick={checkAnswer('FALSE')}
+          >
+            <IoClose size={40} />
+          </div>
+          <div
+            className="flex aspect-square cursor-pointer justify-center rounded-lg bg-green-500 p-5 active:scale-95"
+            onClick={checkAnswer('TRUE')}
+          >
+            <IoCheckmarkSharp size={40} />
+          </div>
         </div>
-        <div
-          className="flex aspect-square cursor-pointer justify-center rounded-lg bg-green-500 p-5 active:scale-95"
-          onClick={checkAnswer('TRUE')}
-        >
-          <IoCheckmarkSharp size={40} />
-        </div>
-      </div>
+      )}
     </Card>
   )
 }
