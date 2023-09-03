@@ -16,7 +16,7 @@ interface GlossaryTextProps {
 const Wrapper = ({ children }: { children: string }) => {
   const { glossary } = useGlossary()
   const [open, setOpen] = useState(false)
-  const definition = glossary?.terms.find(t => t.term === children)?.definition
+  const definition = glossary?.terms.find(t => t.term.toLowerCase() === children.toLowerCase())?.definition
 
   function handleOpen() {
     setOpen(true)
