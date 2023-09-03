@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { MdAdd, MdClose } from 'react-icons/md'
 
 import { useMatch } from '@/hooks/useMatch'
+import { GameWithCards } from '@/server/prisma/games'
 
 import { Alert } from '../Alert'
 import { Button } from '../Buttons'
@@ -14,16 +15,26 @@ import { Modal } from '../Modal'
 interface StartGameModalProps {
   open: boolean
   onClose(): void
+  game?: GameWithCards
 }
 
-export function StartGameModal({ open, onClose }: StartGameModalProps) {
-  const { players, addPlayer, removePlayer, start, error, clearError } = useMatch()
+function shuffleCards(cards: GameWithCards['cards'] = []) {
+  for (let i = cards.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[cards[i], cards[j]] = [cards[j], cards[i]]
+  }
+  return cards
+}
+
+export function StartGameModal({ open, onClose, game }: StartGameModalProps) {
+  const { players, setCards, addPlayer, removePlayer, start, error, clearError } = useMatch()
   const [newPlayer, setNewPlayer] = useState('')
 
   function handleStart() {
     start()
     if (!error) {
       onClose()
+      setCards(shuffleCards(game?.cards || []))
     }
   }
 

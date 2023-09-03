@@ -4,27 +4,26 @@ import { IoCheckmarkSharp, IoClose } from 'react-icons/io5'
 import { useConfetti } from '@/app/(Global)/ConfettiControl'
 import { Card } from '@/components/Card'
 import { GlossaryText } from '@/components/GlossaryText'
-import { GameWithCards } from '@/server/prisma/games'
-
-type Card = GameWithCards['cards'][number]
+import { MatchCard, useMatch } from '@/hooks/useMatch'
 
 interface SliderItemProps {
-  card: GameWithCards['cards'][number]
+  card: MatchCard
 }
 
 export function SliderItem({ card }: SliderItemProps) {
   const [emoji, setEmoji] = useState('🤔')
   const [showExplanation, setShowExplanation] = useState(false)
   const { open: confetti } = useConfetti()
+  const { answer } = useMatch()
 
-  const checkAnswer = (answer: Card['answer']) => () => {
-    if (answer === card.answer) {
+  const checkAnswer = (userAnswer: MatchCard['answer']) => () => {
+    answer(card, userAnswer)
+    if (userAnswer === card.answer) {
       setEmoji('😁')
       confetti()
     } else {
       setEmoji('😭')
     }
-
     setShowExplanation(true)
   }
 

@@ -1,17 +1,26 @@
 'use client'
 
 import { Match } from '@/@types/match'
+import { GameWithCards } from '@/server/prisma/games'
 import { v4 as uuid } from 'uuid'
 import { create } from 'zustand'
 
+export type MatchCard = GameWithCards['cards'][number] & {
+  answered?: boolean
+}
+
 interface MatchState extends Match {
-  error?: string
+  cards: MatchCard[]
+  started: boolean
+  playersTurn?: string
+  setCards(cards: MatchCard[]): void
   addPlayer(player: string): void
   removePlayer(player: string): void
-  clearError(): void
+  answer(card: MatchCard, answer: MatchCard['answer']): void
   start(): void
   end(): void
-  started: boolean
+  clearError(): void
+  error?: string
 }
 
 const localStorageKey = 'match'
@@ -20,13 +29,38 @@ const savedState = localStorage.getItem(localStorageKey)
 const initialState = {
   id: uuid(),
   players: [],
-  started: false
+  cards: [],
+  started: false,
+  playersTurn: undefined,
+  error: undefined
 }
 
 export const useMatch = create<MatchState>(set => ({
   ...initialState,
   // If there's a saved state in localStorage, use it; otherwise, use the initial state
   ...(savedState ? JSON.parse(savedState) : {}),
+  setCards: (cards: MatchCard[]) => set(() => ({ cards })),
+  answer: (card: MatchCard, answer: MatchCard['answer']) =>
+    set(match => {
+      const playerIndex = match.players.findIndex(p => p.id === match.playersTurn)
+      const cardIndex = match.cards.findIndex(c => c.id === card.id)
+
+      if (match.cards[cardIndex].answered) {
+        return {}
+      }
+
+      match.cards[cardIndex].answered = true
+
+      if (card.answer === answer) {
+        match.players[playerIndex].score++
+      } else {
+        const newPlayerIndex = playerIndex === match.players.length - 1 ? 0 : playerIndex + 1
+        match.playersTurn = match.players[newPlayerIndex].id
+      }
+
+      localStorage.setItem(localStorageKey, JSON.stringify({ ...match }))
+      return { ...match }
+    }),
   addPlayer: (player: string) =>
     set(match => {
       if (!player) {
@@ -54,7 +88,7 @@ export const useMatch = create<MatchState>(set => ({
   start: () =>
     set(match => {
       if (match.players.length > 0) {
-        const updatedMatch = { ...match, started: true }
+        const updatedMatch = { ...match, playersTurn: match.players[0].id, started: true }
         localStorage.setItem(localStorageKey, JSON.stringify(updatedMatch))
         return updatedMatch
       }
