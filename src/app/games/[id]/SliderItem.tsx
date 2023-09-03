@@ -27,7 +27,7 @@ export function SliderItem({ card }: SliderItemProps) {
       <p className="mb-2 text-center font-serif font-semibold">
         <GlossaryText>{card.question}</GlossaryText>
       </p>
-      {card.answer && (
+      {card.answered && (
         <p className="mb-1 overflow-auto break-all text-center font-serif font-semibold scrollbar-thin scrollbar-track-white/75 scrollbar-thumb-[#8888884b] dark:scrollbar-track-zinc-700">
           Explicação:
           <br />
