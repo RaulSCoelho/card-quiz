@@ -12,7 +12,7 @@ interface SliderItemProps {
 export function SliderItem({ card }: SliderItemProps) {
   const { open: confetti } = useConfetti()
   const { answer } = useMatch()
-  const emoji = card.answer ? (card.answeredCorrectly ? '😁' : '😭') : '🤔'
+  const emoji = card.answered ? (card.answeredCorrectly ? '😁' : '😭') : '🤔'
 
   const checkAnswer = (userAnswer: MatchCard['answer']) => () => {
     answer(card, userAnswer)
