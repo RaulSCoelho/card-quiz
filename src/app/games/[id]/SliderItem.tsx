@@ -3,6 +3,7 @@ import { IoCheckmarkSharp, IoClose } from 'react-icons/io5'
 
 import { useConfetti } from '@/app/(Global)/ConfettiControl'
 import { Card } from '@/components/Card'
+import { GlossaryText } from '@/components/GlossaryText'
 import { GameWithCards } from '@/server/prisma/games'
 
 type Card = GameWithCards['cards'][number]
@@ -30,12 +31,14 @@ export function SliderItem({ card }: SliderItemProps) {
   return (
     <Card className="flex h-full flex-col justify-around p-5">
       <p className="mb-4 text-center text-7xl">{emoji}</p>
-      <p className="mb-2 text-center font-serif font-semibold">{card.question}</p>
+      <p className="mb-2 text-center font-serif font-semibold">
+        <GlossaryText>{card.question}</GlossaryText>
+      </p>
       {showExplanation && (
         <p className="mb-1 overflow-auto break-all text-center font-serif font-semibold scrollbar-thin scrollbar-track-white/75 scrollbar-thumb-[#8888884b] dark:scrollbar-track-zinc-700">
           Explicação:
           <br />
-          {card.explanation}
+          <GlossaryText>{card.explanation}</GlossaryText>
         </p>
       )}
       <div className="flex justify-around text-white">
