@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 
+import { component } from '@/styles'
 import { tv } from 'tailwind-variants'
 
 export interface BadgeProps {
@@ -16,21 +17,14 @@ export interface BadgeProps {
 }
 
 const badge = tv({
+  extend: component,
   base: 'absolute z-[2] flex -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full px-[4px]',
   variants: {
     size: {
       xs: 'h-[15px] min-w-[15px] text-[.7rem]',
       sm: 'h-[20px] min-w-[20px] text-xs',
       md: 'h-[25px] min-w-[25px] text-sm',
-      lg: 'h-[30px] min-w-[30px] text-md'
-    },
-    color: {
-      primary: 'bg-primary-light dark:bg-primary-dark',
-      secondary: 'bg-secondary-light dark:bg-secondary-dark',
-      info: 'bg-info-light dark:bg-info-dark',
-      success: 'bg-success-light dark:bg-success-dark',
-      warning: 'bg-warning-light dark:bg-warning-dark',
-      error: 'bg-error-light dark:bg-error-dark'
+      lg: 'text-md h-[30px] min-w-[30px]'
     },
     variant: {
       standard: '',

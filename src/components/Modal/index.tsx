@@ -19,7 +19,7 @@ interface ModalProps extends ModalBaseProps {
 const modal = tv({
   slots: {
     header: 'flex justify-between gap-4 pl-6 text-xl',
-    content: 'flex grow flex-col justify-center'
+    content: 'flex grow flex-col justify-center overflow-auto'
   },
   variants: {
     title: {

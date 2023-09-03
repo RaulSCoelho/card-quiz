@@ -69,7 +69,7 @@ model Term {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   Glossary   Glossary? @relation(fields: [glossaryId], references: [id])
   glossaryId String?   @db.ObjectId
-  term       String
+  term       String    @unique
   definition String
 }
 

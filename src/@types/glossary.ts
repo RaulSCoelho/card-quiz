@@ -22,7 +22,6 @@ export const updateGlossarySchema = z.object({
         definition: z.string().nonempty('Por favor, insira a definição')
       })
     )
-    .min(1, 'Adicione pelo menos um termo')
     .default([]),
   termsToDelete: z
     .array(

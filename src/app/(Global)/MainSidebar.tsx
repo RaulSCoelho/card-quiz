@@ -1,5 +1,6 @@
 'use client'
 
+import { BiBook } from 'react-icons/bi'
 import { GoPeople } from 'react-icons/go'
 import { IoGameControllerOutline, IoHomeOutline } from 'react-icons/io5'
 import { MdLogin, MdOutlineAdminPanelSettings as AdminIcon } from 'react-icons/md'
@@ -42,6 +43,7 @@ export function MainSidebar() {
       <Sidebar.Body>
         <Sidebar.Route title="Home" path="/" icon={IoHomeOutline} exact />
         <Sidebar.Route title="Jogos" path="/games" icon={IoGameControllerOutline} />
+        <Sidebar.Route title="Glossário" path="/glossary" icon={BiBook} />
         {isAdmin && <Sidebar.Accordion title="Admin" path="/admin" icon={AdminIcon} paths={adminPaths} />}
       </Sidebar.Body>
       <Sidebar.Footer className="p-2">

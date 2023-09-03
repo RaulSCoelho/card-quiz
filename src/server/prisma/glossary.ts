@@ -26,7 +26,7 @@ class GlossaryApi {
 
   async post({ terms }: CreateGlossary) {
     try {
-      const newGlossary = await prisma.glossary.create({ data: { terms: { create: terms } } })
+      const newGlossary = await prisma.glossary.create({ data: { terms: { create: terms } }, include: { terms: true } })
       return { glossary: newGlossary }
     } catch (error: any) {
       return { error }
@@ -41,7 +41,8 @@ class GlossaryApi {
         where: { id },
         data: {
           terms: {
-            update: termUpdate.map(({ id, ...term }) => ({ data: term, where: { id } })),
+            update:
+              termUpdate.length > 0 ? termUpdate.map(({ id, ...term }) => ({ data: term, where: { id } })) : undefined,
             createMany: termCreate.length > 0 ? { data: termCreate } : undefined,
             delete: termsToDelete
           }

@@ -4,7 +4,7 @@ import { Games } from '.'
 
 export const dynamic = 'force-dynamic'
 export const metadata = {
-  title: 'Games'
+  title: 'Jogos'
 }
 
 export default async function Page() {

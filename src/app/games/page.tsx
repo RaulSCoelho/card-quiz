@@ -3,6 +3,9 @@ import { gamesApi } from '@/server/prisma/games'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
+export const metadata = {
+  title: 'Jogos'
+}
 
 export default async function Page() {
   const { games } = await gamesApi.get()

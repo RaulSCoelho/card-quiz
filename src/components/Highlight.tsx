@@ -9,6 +9,10 @@ interface HighlightProps extends WrapperProps {
 export function Highlight({ children, search, wrapper }: HighlightProps) {
   const matches = findMatches(children, search)
 
+  if (!matches || matches.length === 0) {
+    return children
+  }
+
   return (
     <>
       {matches.map(({ from, to, match }, i) =>
