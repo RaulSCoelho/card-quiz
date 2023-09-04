@@ -8,15 +8,9 @@ import { Card } from '@/components/Card'
 import { GlossaryHighlight } from '@/components/GlossaryText'
 import { MatchCard, useMatch } from '@/hooks/useMatch'
 
-interface CardsSliderProps {
-  cards?: MatchCard[]
-}
-
-export function CardsSlider({ cards }: CardsSliderProps) {
+export function Cards() {
   const [index, setIndex] = useState(0)
-  const { answer } = useMatch()
-  if (!cards) return null
-
+  const { answer, cards } = useMatch()
   const card = cards[index]
   const emoji = card.answered ? (card.answeredCorrectly ? '😁' : '😭') : '🤔'
 

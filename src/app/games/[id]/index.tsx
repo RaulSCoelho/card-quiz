@@ -6,19 +6,12 @@ import { Button } from '@/components/Buttons'
 import { Skeleton } from '@/components/Skeleton'
 import { useMatch } from '@/hooks/useMatch'
 import { GameWithCards } from '@/server/prisma/games'
+import { shuffle } from '@/utils/array'
 
-import { CardsSlider } from './CardsSlider'
+import { Cards } from './Cards'
 
 interface GameProps {
   game?: GameWithCards
-}
-
-function shuffleCards(cards: GameWithCards['cards'] = []) {
-  for (let i = cards.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[cards[i], cards[j]] = [cards[j], cards[i]]
-  }
-  return cards
 }
 
 export function Game({ game }: GameProps) {
@@ -27,7 +20,7 @@ export function Game({ game }: GameProps) {
   useEffect(() => {
     if (game) {
       if (!started || cards.length !== game.cards.length) {
-        setCards(shuffleCards(game.cards || []))
+        setCards(shuffle(game.cards || []))
         start()
       }
     }
@@ -35,7 +28,7 @@ export function Game({ game }: GameProps) {
 
   function reset() {
     const match = useMatch.getState()
-    setCards(shuffleCards(game?.cards || []))
+    setCards(shuffle(game?.cards || []))
     useMatch.setState({ players: [{ ...match.players[0], score: 0 }] })
     localStorage.setItem('match', JSON.stringify({ ...match }))
   }
@@ -43,7 +36,7 @@ export function Game({ game }: GameProps) {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center space-y-8 overflow-hidden">
       {started ? (
-        <CardsSlider cards={cards} />
+        <Cards />
       ) : (
         <div className="h-4/5 w-5/6 sm:aspect-[2.5/3.5] sm:h-fit sm:w-96">
           <Skeleton className="h-full w-full rounded-lg" />
