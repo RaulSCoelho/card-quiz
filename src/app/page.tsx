@@ -35,8 +35,11 @@ export default function Home() {
           partida.
         </li>
         <li>
-          2- A cada rodada os jogadores devem responder perguntas disponíveis no site (*******) para assim poder avançar
-          nas casas do tabuleiro.
+          2- A cada rodada os jogadores devem responder perguntas disponíveis no site{' '}
+          <Link className="text-indigo-500 dark:text-indigo-400" href="https://cardsquiz.vercel.app/">
+            https://cardsquiz.vercel.app/
+          </Link>{' '}
+          para assim poder avançar nas casas do tabuleiro.
         </li>
         <li>3- Se o jogador errar uma sequência de 3 perguntas, fica uma rodada sem jogar.</li>
         <li>
