@@ -32,7 +32,10 @@ export function Game({ game }: GameProps) {
   }, [started, setCards, game?.cards, start])
 
   function reset() {
+    const match = useMatch.getState()
     setCards(shuffleCards(game?.cards || []))
+    useMatch.setState({ players: [{ ...match.players[0], score: 0 }] })
+    localStorage.setItem('match', JSON.stringify({ ...match }))
   }
 
   return (
