@@ -15,31 +15,38 @@ interface MatchState extends Match {
   started: boolean
   playersTurn?: string
   setCards(cards: MatchCard[]): void
-  addPlayer(player: string): void
-  removePlayer(player: string): void
   answer(card: MatchCard, answer: MatchCard['answer']): void
   start(): void
-  end(): void
-  clearError(): void
-  error?: string
 }
 
 const localStorageKey = 'match'
-const savedState = localStorage.getItem(localStorageKey)
+function getStoredState() {
+  const storedState = localStorage.getItem(localStorageKey)
+  if (storedState) {
+    const storedStateObj = JSON.parse(storedState)
+    if (storedStateObj.playersTurn === '4cd100bc-a98c-467d-8915-8690838e1353') return storedStateObj
+  }
+  return {}
+}
 
 const initialState = {
   id: uuid(),
-  players: [],
+  players: [
+    {
+      id: '4cd100bc-a98c-467d-8915-8690838e1353',
+      username: 'player1',
+      score: 0
+    }
+  ],
   cards: [],
   started: false,
-  playersTurn: undefined,
-  error: undefined
+  playersTurn: '4cd100bc-a98c-467d-8915-8690838e1353'
 }
 
 export const useMatch = create<MatchState>(set => ({
   ...initialState,
   // If there's a saved state in localStorage, use it; otherwise, use the initial state
-  ...(savedState ? JSON.parse(savedState) : {}),
+  ...getStoredState(),
   setCards: (cards: MatchCard[]) => set(() => ({ cards })),
   answer: (card: MatchCard, answer: MatchCard['answer']) =>
     set(match => {
@@ -55,38 +62,11 @@ export const useMatch = create<MatchState>(set => ({
 
       if (card.answer === answer) {
         match.players[playerIndex].score++
-      } else {
-        const newPlayerIndex = playerIndex === match.players.length - 1 ? 0 : playerIndex + 1
-        match.playersTurn = match.players[newPlayerIndex].id
       }
 
       localStorage.setItem(localStorageKey, JSON.stringify({ ...match }))
       return { ...match }
     }),
-  addPlayer: (player: string) =>
-    set(match => {
-      if (!player) {
-        return { error: 'Por favor escolha um nome' }
-      }
-      if (player.length > 17) {
-        return { error: 'Por favor escolha um nome com até 16 letras' }
-      }
-      if (match.players.some(p => p.username === player)) {
-        return { error: 'Jogador com esse nome já foi cadastrado, por favor escolha outro nome' }
-      }
-
-      const updatedPlayers = [...match.players, { id: uuid(), username: player, score: 0 }]
-      localStorage.setItem(localStorageKey, JSON.stringify({ ...match, players: updatedPlayers }))
-
-      return { players: updatedPlayers, error: undefined }
-    }),
-  removePlayer: (player: string) =>
-    set(match => {
-      const updatedPlayers = match.players.filter(p => p.username !== player)
-      localStorage.setItem(localStorageKey, JSON.stringify({ ...match, players: updatedPlayers }))
-      return { players: updatedPlayers }
-    }),
-  clearError: () => set(() => ({ error: undefined })),
   start: () =>
     set(match => {
       if (match.players.length > 0) {
@@ -95,10 +75,5 @@ export const useMatch = create<MatchState>(set => ({
         return updatedMatch
       }
       return { ...match, started: false, error: 'Adicione um jogador para poder iniciar' }
-    }),
-  end: () =>
-    set(() => {
-      localStorage.removeItem(localStorageKey)
-      return { ...initialState }
     })
 }))

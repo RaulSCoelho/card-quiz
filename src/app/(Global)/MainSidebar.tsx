@@ -42,7 +42,7 @@ export function MainSidebar() {
     <Sidebar open={isOpen} onClose={close} title="Cards Quiz" logo="/logo.png">
       <Sidebar.Body>
         <Sidebar.Route title="Home" path="/" icon={IoHomeOutline} exact />
-        <Sidebar.Route title="Jogos" path="/games" icon={IoGameControllerOutline} />
+        <Sidebar.Route title="Jogar" path="/games" icon={IoGameControllerOutline} />
         <Sidebar.Route title="Glossário" path="/glossary" icon={BiBook} />
         {isAdmin && <Sidebar.Accordion title="Admin" path="/admin" icon={AdminIcon} paths={adminPaths} />}
       </Sidebar.Body>
