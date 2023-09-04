@@ -47,7 +47,7 @@ export function Game({ game }: GameProps) {
           <Skeleton className="h-full w-full rounded-lg" />
         </div>
       )}
-      <Button onClick={reset}>Resetar Jogo</Button>
+      <Button onClick={reset}>Reiniciar Jogo</Button>
     </div>
   )
 }
