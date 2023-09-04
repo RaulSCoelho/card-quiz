@@ -2,16 +2,23 @@ import { ComponentType } from 'react'
 
 import { findMatches, removeAccents } from '@/utils/text'
 
+type Wrapper = ComponentType<{ children: string }>
+
+type Search =
+  | {
+      text: string
+      wrapper?: Wrapper
+    }
+  | string
+
 interface HighlightProps {
   children: string
-  search: {
-    text: string
-    wrapper?: ComponentType<{ children: string }>
-  }[]
+  search: Search[]
+  wrapper?: Wrapper
 }
 
-export function Highlight({ children, search }: HighlightProps) {
-  const searchStrings = search.map(s => s.text)
+export function Highlight({ children, search, wrapper }: HighlightProps) {
+  const searchStrings = search.map(s => (typeof s === 'string' ? s : s.text))
   const matches = findMatches(children, searchStrings)
 
   if (!matches || matches.length === 0) {
@@ -23,14 +30,19 @@ export function Highlight({ children, search }: HighlightProps) {
       {matches.map(({ from, to, match }, i) => {
         const text = children.substring(from, to)
         const textSearch = search.find(
-          s => removeAccents(s.text).toLocaleLowerCase() === removeAccents(text).toLocaleLowerCase()
+          s =>
+            removeAccents(typeof s === 'string' ? s : s.text).toLocaleLowerCase() ===
+            removeAccents(text).toLocaleLowerCase()
         )
-        const CustomWrapper = textSearch?.wrapper
+        let CustomWrapper = wrapper
+        if (typeof textSearch === 'object') {
+          CustomWrapper = textSearch.wrapper
+        }
 
         return match ? (
-          <Wrapper wrapper={CustomWrapper} key={i}>
+          <HighlightWrapper wrapper={CustomWrapper} key={i}>
             {text}
-          </Wrapper>
+          </HighlightWrapper>
         ) : (
           text
         )
@@ -39,11 +51,11 @@ export function Highlight({ children, search }: HighlightProps) {
   )
 }
 
-interface WrapperProps {
+interface HighlightWrapperProps {
   children: string
-  wrapper?: ComponentType<{ children: string }>
+  wrapper?: Wrapper
 }
 
-function Wrapper({ children, wrapper: TextWrapper }: WrapperProps) {
+function HighlightWrapper({ children, wrapper: TextWrapper }: HighlightWrapperProps) {
   return TextWrapper ? <TextWrapper>{children}</TextWrapper> : <span className="text-red-500">{children}</span>
 }

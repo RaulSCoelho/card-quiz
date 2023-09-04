@@ -10,14 +10,17 @@ interface GlossaryTextProps {
 
 export function GlossaryHighlight({ children }: GlossaryTextProps) {
   const { glossary } = useGlossary()
-  const search = glossary?.terms
-    .map(term => ({ text: term.term, wrapper: Wrapper }))
-    .concat([
-      { text: 'W. bancrofti', wrapper: NamesWrapper },
-      { text: 'Culex quinquefasciatus', wrapper: NamesWrapper }
-    ])
+  const search = glossary?.terms.map(term => term.term) || []
+  const namesSearch = [
+    { text: 'W. bancrofti', wrapper: NamesWrapper },
+    { text: 'Culex quinquefasciatus', wrapper: NamesWrapper }
+  ]
 
-  return <Highlight search={search || []}>{children}</Highlight>
+  return (
+    <Highlight search={[...search, ...namesSearch]} wrapper={Wrapper}>
+      {children}
+    </Highlight>
+  )
 }
 
 const Wrapper = ({ children }: { children: string }) => {
