@@ -1,13 +1,18 @@
 import { ComponentType } from 'react'
 
-import { findMatches } from '@/utils/text'
+import { findMatches, removeAccents } from '@/utils/text'
 
-interface HighlightProps extends WrapperProps {
-  search: string[]
+interface HighlightProps {
+  children: string
+  search: {
+    text: string
+    wrapper?: ComponentType<{ children: string }>
+  }[]
 }
 
-export function Highlight({ children, search, wrapper }: HighlightProps) {
-  const matches = findMatches(children, search)
+export function Highlight({ children, search }: HighlightProps) {
+  const searchStrings = search.map(s => s.text)
+  const matches = findMatches(children, searchStrings)
 
   if (!matches || matches.length === 0) {
     return children
@@ -15,15 +20,21 @@ export function Highlight({ children, search, wrapper }: HighlightProps) {
 
   return (
     <>
-      {matches.map(({ from, to, match }, i) =>
-        match ? (
-          <Wrapper wrapper={wrapper} key={i}>
-            {children.substring(from, to)}
+      {matches.map(({ from, to, match }, i) => {
+        const text = children.substring(from, to)
+        const textSearch = search.find(
+          s => removeAccents(s.text).toLocaleLowerCase() === removeAccents(text).toLocaleLowerCase()
+        )
+        const CustomWrapper = textSearch?.wrapper
+
+        return match ? (
+          <Wrapper wrapper={CustomWrapper} key={i}>
+            {text}
           </Wrapper>
         ) : (
-          children.substring(from, to)
+          text
         )
-      )}
+      })}
     </>
   )
 }

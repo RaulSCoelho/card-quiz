@@ -1,27 +1,23 @@
 'use client'
 
-import { ComponentProps } from 'react'
-
 import { useGlossary } from '@/hooks/useGlossary'
 
 import { Highlight } from './Highlight'
-import { Text } from './Text'
 
-interface GlossaryTextProps extends ComponentProps<typeof Text> {
+interface GlossaryTextProps {
   children: string
 }
 
-export function GlossaryText({ children, ...props }: GlossaryTextProps) {
+export function GlossaryHighlight({ children }: GlossaryTextProps) {
   const { glossary } = useGlossary()
-  const search = glossary?.terms.map(term => term.term)
+  const search = glossary?.terms
+    .map(term => ({ text: term.term, wrapper: Wrapper }))
+    .concat([
+      { text: 'W. bancrofti', wrapper: NamesWrapper },
+      { text: 'Culex quinquefasciatus', wrapper: NamesWrapper }
+    ])
 
-  return (
-    <Text {...props}>
-      <Highlight search={search || []} wrapper={Wrapper}>
-        {children}
-      </Highlight>
-    </Text>
-  )
+  return <Highlight search={search || []}>{children}</Highlight>
 }
 
 const Wrapper = ({ children }: { children: string }) => {
@@ -35,3 +31,7 @@ const Wrapper = ({ children }: { children: string }) => {
     </span>
   )
 }
+
+const NamesWrapper = ({ children }: { children: string }) => (
+  <span className="font-bold italic tracking-wider underline decoration-dotted">{children}</span>
+)

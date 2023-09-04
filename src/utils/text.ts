@@ -5,8 +5,8 @@ type Match = {
   match: boolean
 }
 
-const removeAccents = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-const escapeRegex = (value: string): string => value.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
+export const removeAccents = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+export const escapeRegex = (value: string): string => value.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
 
 export function findMatches(source: string, target: string | string[]) {
   const targets = Array.isArray(target) ? target : [target]
