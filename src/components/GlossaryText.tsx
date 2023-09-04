@@ -11,7 +11,10 @@ interface GlossaryTextProps {
 const Wrapper = ({ children }: { children: string }) => {
   const { openTerm } = useGlossary()
   return (
-    <span className="cursor-pointer font-bold underline decoration-dotted" onClick={() => openTerm(children)}>
+    <span
+      className="cursor-pointer font-bold italic tracking-wider underline decoration-dotted"
+      onClick={() => openTerm(children)}
+    >
       {children}
     </span>
   )
