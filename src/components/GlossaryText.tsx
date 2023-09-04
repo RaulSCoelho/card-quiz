@@ -1,11 +1,27 @@
 'use client'
 
+import { ComponentProps } from 'react'
+
 import { useGlossary } from '@/hooks/useGlossary'
 
 import { Highlight } from './Highlight'
+import { Text } from './Text'
 
-interface GlossaryTextProps {
+interface GlossaryTextProps extends ComponentProps<typeof Text> {
   children: string
+}
+
+export function GlossaryText({ children, ...props }: GlossaryTextProps) {
+  const { glossary } = useGlossary()
+  const search = glossary?.terms.map(term => term.term)
+
+  return (
+    <Text {...props}>
+      <Highlight search={search || []} wrapper={Wrapper}>
+        {children}
+      </Highlight>
+    </Text>
+  )
 }
 
 const Wrapper = ({ children }: { children: string }) => {
@@ -17,16 +33,5 @@ const Wrapper = ({ children }: { children: string }) => {
     >
       {children}
     </span>
-  )
-}
-
-export function GlossaryText({ children }: GlossaryTextProps) {
-  const { glossary } = useGlossary()
-  const search = glossary?.terms.map(term => term.term)
-
-  return (
-    <Highlight search={search || []} wrapper={Wrapper}>
-      {children}
-    </Highlight>
   )
 }

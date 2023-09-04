@@ -5,6 +5,7 @@ type Match = {
   match: boolean
 }
 
+const removeAccents = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 const escapeRegex = (value: string): string => value.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
 
 export function findMatches(source: string, target: string | string[]) {
@@ -15,9 +16,11 @@ export function findMatches(source: string, target: string | string[]) {
   // Find all matches
   for (const target of targets) {
     if (target && target !== ' ') {
-      const regex = new RegExp(escapeRegex(target.toLowerCase()), 'gi')
+      const targetNormalized = removeAccents(target.toLowerCase())
+      const sourceNormalized = removeAccents(source.toLowerCase())
+      const regex = new RegExp(escapeRegex(targetNormalized), 'gi')
       let match: RegExpExecArray | null
-      while ((match = regex.exec(source.toLowerCase())) !== null) {
+      while ((match = regex.exec(sourceNormalized)) !== null) {
         const from = match.index
         const to = from + match[0].length
         matches.push({ from, to, text: source.slice(from, to), match: true })
