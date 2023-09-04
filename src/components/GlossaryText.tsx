@@ -33,5 +33,5 @@ const Wrapper = ({ children }: { children: string }) => {
 }
 
 const NamesWrapper = ({ children }: { children: string }) => (
-  <span className="font-bold italic tracking-wider underline decoration-dotted">{children}</span>
+  <span className="font-bold italic tracking-wider">{children}</span>
 )
