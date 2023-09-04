@@ -25,11 +25,13 @@ export function Game({ game }: GameProps) {
   const { started, cards, setCards, start } = useMatch()
 
   useEffect(() => {
-    if (!started) {
-      setCards(shuffleCards(game?.cards || []))
-      start()
+    if (game) {
+      if (!started || cards.length !== game.cards.length) {
+        setCards(shuffleCards(game.cards || []))
+        start()
+      }
     }
-  }, [started, setCards, game?.cards, start])
+  }, [cards.length, game, setCards, start, started])
 
   function reset() {
     const match = useMatch.getState()
