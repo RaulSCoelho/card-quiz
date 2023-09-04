@@ -26,7 +26,7 @@ export function Game({ game }: GameProps) {
 
   useEffect(() => {
     if (!started) {
-      shuffleCards(game?.cards || [])
+      setCards(shuffleCards(game?.cards || []))
       start()
     }
   }, [started, setCards, game?.cards, start])

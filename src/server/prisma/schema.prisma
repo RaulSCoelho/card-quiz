@@ -53,7 +53,7 @@ model Card {
   gameId      String?  @db.ObjectId
   question    String
   answer      Answer
-  explanation String
+  explanation String?
   points      Int      @default(1)
   createdAt   DateTime @default(now())
 

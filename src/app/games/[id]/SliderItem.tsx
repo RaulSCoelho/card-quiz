@@ -24,15 +24,13 @@ export function SliderItem({ card }: SliderItemProps) {
   return (
     <Card className="flex h-full flex-col justify-around p-5">
       <p className="mb-4 text-center text-7xl">{emoji}</p>
-      <p className="mb-2 text-center font-serif font-semibold">
-        <GlossaryText>{card.question}</GlossaryText>
-      </p>
-      {card.answered && (
-        <p className="mb-1 overflow-auto break-all text-center font-serif font-semibold scrollbar-thin scrollbar-track-white/75 scrollbar-thumb-[#8888884b] dark:scrollbar-track-zinc-700">
+      <GlossaryText className="mb-2 text-center font-serif font-semibold">{card.question}</GlossaryText>
+      {card.answered && card.explanation && (
+        <div className="mb-1 overflow-auto break-all text-center font-serif font-semibold scrollbar-thin scrollbar-track-white/75 scrollbar-thumb-[#8888884b] dark:scrollbar-track-zinc-700">
           Explicação:
           <br />
           <GlossaryText>{card.explanation}</GlossaryText>
-        </p>
+        </div>
       )}
       {!card.answered && (
         <div className="flex justify-around text-white">

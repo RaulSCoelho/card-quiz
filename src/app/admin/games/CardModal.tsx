@@ -26,7 +26,7 @@ export function CardModal({ open, onClose, onConfirmCard, onRemoveCard, defaultV
   const [error, setError] = useState('')
 
   const cardChange = (field: keyof Card) => (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setNewCard(prev => ({ ...prev, [field]: e.target.value }))
+    setNewCard(prev => ({ ...prev, [field]: e.target.value ? e.target.value : undefined }))
   }
 
   function reset() {
@@ -77,7 +77,7 @@ export function CardModal({ open, onClose, onConfirmCard, onRemoveCard, defaultV
         <Checkbox label="verdadeiro?" checked={newCard.answer === 'TRUE'} onChange={toggleTrueOrFalse} />
         <TextArea
           label="explicação"
-          value={newCard.explanation}
+          value={newCard.explanation || ''}
           className="resize-none"
           rows={5}
           onChange={cardChange('explanation')}

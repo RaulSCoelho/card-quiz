@@ -32,7 +32,7 @@ export default function Home() {
       <ul className="mb-6 space-y-2">
         <li>
           1-Cada jogador seleciona um peão e lança o dado. O participante que obtiver a maior numeração começa a
-          partida.{' '}
+          partida.
         </li>
         <li>
           2- A cada rodada os jogadores devem responder perguntas disponíveis no site (*******) para assim poder avançar
