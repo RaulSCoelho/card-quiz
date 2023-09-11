@@ -15,7 +15,7 @@ export default function Home() {
       </Text>
 
       <Text className="mb-6">
-        Faixa etária: 12-16 anos.
+        Faixa etária: 16+.
         <br />
         De dois a três participantes.
       </Text>
